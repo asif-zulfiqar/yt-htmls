@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070709;--card:#0d0d11;--border:rgba(255,255,255,.08);--orange:#f59e0b;--gray:#9ca3af;--text:#f0f0f0;--muted:#888;--green:#10a37f;--red:#ef4444;--blue:#60a5fa;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 700px 400px at 30% 50%,rgba(245,158,11,.04),transparent 60%),radial-gradient(ellipse 700px 400px at 70% 50%,rgba(107,114,128,.04),transparent 60%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fillBar{from{width:0}to{width:var(--w)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards}
+.brand-a{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:1.5px}
+.brand-b{font-size:11px;font-weight:700;color:var(--gray);letter-spacing:1.5px}
+.vs-sep{font-size:11px;color:var(--muted);margin:0 8px}
+.badge{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--orange);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:18px;opacity:0;animation:rise .5s .1s ease forwards}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px}
+.title .a{color:var(--orange)}.title .b{color:var(--gray)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6;max-width:640px}
+.source{font-size:9px;color:rgba(245,158,11,.5);margin-top:4px;letter-spacing:.5px}
+</style>
+<style>
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:14px;background:var(--card);border:1px solid var(--border);opacity:0;animation:rise .5s .18s ease forwards}
+.tli{padding:12px 14px;border-right:1px solid var(--border);text-align:center}
+.tli:last-child{border-right:none}
+.tl-dot{width:8px;height:8px;border-radius:50%;margin:0 auto 6px}
+.tl-time{font-size:11px;font-weight:700}
+.tl-desc{font-size:9px;color:var(--muted);margin-top:3px}
+.tweets{display:grid;grid-template-columns:1fr 50px 1fr;gap:4px;margin-bottom:14px}
+.tw{background:var(--card);border:1px solid;padding:20px 18px;opacity:0}
+.tw.ant{border-color:rgba(245,158,11,.25);animation:rise .5s .26s ease forwards}
+.tw.oai{border-color:rgba(107,114,128,.2);animation:rise .5s .34s ease forwards}
+.tw-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tw-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.ant .tw-av{background:rgba(245,158,11,.15);color:var(--orange);border:1px solid rgba(245,158,11,.3)}
+.oai .tw-av{background:rgba(107,114,128,.1);color:var(--gray);border:1px solid rgba(107,114,128,.2)}
+.tw-name{font-size:12px;font-weight:700}.ant .tw-name{color:var(--orange)}.oai .tw-name{color:var(--gray)}
+.tw-handle{font-size:9px;color:var(--muted)}
+.tw-body{font-size:11px;line-height:1.75;color:var(--text);margin-bottom:12px;font-style:italic}
+.tw-meta{font-size:9px;color:var(--muted);margin-bottom:10px}
+.tw-analysis{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:10px 12px}
+.tw-al{font-size:8px;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.tw-at{font-size:10px;color:var(--muted);line-height:1.6}
+.vs-col{display:flex;align-items:center;justify-content:center}
+.vs-badge{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);font-size:10px;font-weight:700;color:var(--orange);padding:12px 8px;writing-mode:vertical-rl;letter-spacing:3px;text-align:center}
+.hw{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);padding:14px 18px;opacity:0;animation:rise .5s .42s ease forwards}
+.hw-title{font-size:11px;font-weight:700;color:#ef9999;margin-bottom:10px}
+.hw-item{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:10px;color:var(--muted);margin-bottom:7px;line-height:1.5}
+.hw-num{color:#ef9999;font-weight:700}
+</style></head><body>
+<div class="top"><div><span class="brand-a">ANTHROPIC</span><span class="vs-sep">vs</span><span class="brand-b">OPENAI</span></div><div class="badge">MAY 13 2026 · THE TWEET WAR</div></div>
+<div class="hero">
+  <div class="ey">// Two moves. One hour. Same day the Ramp data dropped.</div>
+  <div class="title">The <span class="a">War</span> Went <span class="b">Public</span></div>
+  <div class="sub">Not a coincidence. Both companies saw the Ramp data and responded within the hour.</div>
+</div>
+<div class="timeline">
+  <div class="tli"><div class="tl-dot" style="background:var(--muted);margin:0 auto 6px"></div><div class="tl-time" style="color:var(--muted)">10:00 AM</div><div class="tl-desc">Ramp AI Index drops</div></div>
+  <div class="tli"><div class="tl-dot" style="background:var(--orange);margin:0 auto 6px"></div><div class="tl-time" style="color:var(--orange)">12:13 PM</div><div class="tl-desc">Sam Altman tweets about free Codex</div></div>
+  <div class="tli"><div class="tl-dot" style="background:var(--orange);opacity:.6;margin:0 auto 6px"></div><div class="tl-time" style="color:var(--orange)">~1:00 PM</div><div class="tl-desc">ClaudeDevs counter-tweets 50% limit boost</div></div>
+  <div class="tli"><div class="tl-dot" style="background:var(--muted);margin:0 auto 6px"></div><div class="tl-time" style="color:var(--muted)">Rest of day</div><div class="tl-desc">Tech Twitter reacts</div></div>
+</div>
+<div class="tweets">
+  <div class="tw ant">
+    <div class="tw-hd"><div class="tw-av">S</div><div><div class="tw-name">Sam Altman</div><div class="tw-handle">@sama · 12:13 PM · May 13, 2026</div></div></div>
+    <div class="tw-body">"codex is the best AI coding product and we want to make it easy to try. for the next 30 days, we are giving companies that want to try switching over two months of free codex usage."</div>
+    <div class="tw-meta">501 replies · 2.2K reposts · Verified tweet</div>
+    <div class="tw-analysis"><div class="tw-al">// What this means</div><div class="tw-at">Direct target: enterprise Claude Code customers. OpenAI going on offense using the Ramp data as trigger. Offer is specifically for companies switching FROM Claude Code.</div></div>
+  </div>
+  <div class="vs-col"><div class="vs-badge">LESS THAN 1 HOUR LATER</div></div>
+  <div class="tw oai">
+    <div class="tw-hd"><div class="tw-av" style="background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--border)">C</div><div><div class="tw-name" style="color:var(--text)">ClaudeDevs</div><div class="tw-handle">@ClaudeDevs · ~1:00 PM · May 13, 2026</div></div></div>
+    <div class="tw-body">"Claude Code weekly limits are increasing 50%, now through July 13. Live now for all Pro, Max, Team, and seat-based Enterprise users. We're excited to see what everyone builds!"</div>
+    <div class="tw-meta">Applies everywhere: CLI · IDE · Desktop · Web · No opt-in needed</div>
+    <div class="tw-analysis"><div class="tw-al">// What this means</div><div class="tw-at">Counter-move. Enabled by the Anthropic-SpaceX Colossus compute deal. Third rate limit boost since April. Anthropic has been fighting user attrition to Codex all month.</div></div>
+  </div>
+</div>
+<div class="hw">
+  <div class="hw-title">3 Real Headwinds for Anthropic — from the Ramp AI Index report itself</div>
+  <div class="hw-item"><div class="hw-num">1.</div><div><strong style="color:var(--text)">Incentive misalignment:</strong> Anthropic profits more when businesses use more tokens. Incentivized to push expensive models even when cheaper ones would work fine.</div></div>
+  <div class="hw-item"><div class="hw-num">2.</div><div><strong style="color:var(--text)">Claude has gotten worse:</strong> Recent outages, rate limits, user dissatisfaction. Uber's CTO announced they already burned their 2026 AI budget on Claude Code.</div></div>
+  <div class="hw-item"><div class="hw-num">3.</div><div><strong style="color:var(--text)">Token cost increase:</strong> New model update made image prompts 3x more expensive in tokens. Bad timing given existing cost concerns from enterprise customers.</div></div>
+</div>
+</body></html>

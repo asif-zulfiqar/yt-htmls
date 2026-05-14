@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070709;--card:#0d0d11;--border:rgba(255,255,255,.08);--orange:#f59e0b;--gray:#9ca3af;--text:#f0f0f0;--muted:#888;--green:#10a37f;--red:#ef4444;--blue:#60a5fa;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 700px 400px at 30% 50%,rgba(245,158,11,.04),transparent 60%),radial-gradient(ellipse 700px 400px at 70% 50%,rgba(107,114,128,.04),transparent 60%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fillBar{from{width:0}to{width:var(--w)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards}
+.brand-a{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:1.5px}
+.brand-b{font-size:11px;font-weight:700;color:var(--gray);letter-spacing:1.5px}
+.vs-sep{font-size:11px;color:var(--muted);margin:0 8px}
+.badge{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--orange);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:18px;opacity:0;animation:rise .5s .1s ease forwards}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px}
+.title .a{color:var(--orange)}.title .b{color:var(--gray)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6;max-width:640px}
+.source{font-size:9px;color:rgba(245,158,11,.5);margin-top:4px;letter-spacing:.5px}
+</style>
+<style>
+.battle{display:grid;grid-template-columns:1fr 60px 1fr;gap:2px;margin-bottom:14px}
+.side{background:var(--card);border:1px solid;padding:24px 20px}
+.side.ant{border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.04)}
+.side.oai{border-color:rgba(107,114,128,.2);background:rgba(107,114,128,.04)}
+.side-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.ant .side-tag{color:var(--orange)}.oai .side-tag{color:var(--gray)}
+.side-big{font-size:52px;font-weight:800;letter-spacing:-3px;line-height:1}
+.ant .side-big{color:var(--orange)}.oai .side-big{color:var(--gray)}
+.side-change{font-size:16px;font-weight:700;margin-top:6px}
+.change-up{color:var(--green)}.change-dn{color:var(--red)}
+.side-desc{font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6}
+.vs-mid{display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid rgba(245,158,11,.15)}
+.vs-text{font-size:22px;font-weight:800;color:var(--muted)}
+.chart-wrap{margin-bottom:14px;opacity:0;animation:rise .5s .26s ease forwards}
+.chart-label{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.brow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bname{font-size:10px;width:90px;flex-shrink:0}
+.btrack{flex:1;height:30px;background:rgba(255,255,255,.04);overflow:hidden}
+.bfill{height:100%;--w:0;animation:fillBar 1.4s cubic-bezier(.16,1,.3,1) forwards .4s}
+.ant-bar{background:linear-gradient(to right,rgba(245,158,11,.5),rgba(245,158,11,.85))}
+.oai-bar{background:linear-gradient(to right,rgba(107,114,128,.4),rgba(107,114,128,.65))}
+.grn-bar{background:linear-gradient(to right,rgba(16,163,127,.5),rgba(16,163,127,.8))}
+.bval{font-size:14px;font-weight:800;width:52px;text-align:right;flex-shrink:0}
+.bchg{font-size:11px;font-weight:700;width:52px;text-align:right;flex-shrink:0}
+.ctx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;opacity:0;animation:rise .5s .38s ease forwards}
+.ctx{background:var(--card);border:1px solid var(--border);padding:14px}
+.ctx-val{font-size:20px;font-weight:800;margin-bottom:4px}
+.ctx-lbl{font-size:9px;color:var(--muted);line-height:1.5}
+.verify{background:rgba(16,163,127,.06);border:1px solid rgba(16,163,127,.15);padding:10px 18px;font-size:10px;color:var(--muted);margin-top:12px;opacity:0;animation:rise .5s .46s ease forwards}
+</style></head><body>
+<div class="top"><div><span class="brand-a">ANTHROPIC</span><span class="vs-sep">vs</span><span class="brand-b">OPENAI</span></div><div class="badge">RAMP AI INDEX · MAY 13 2026</div></div>
+<div class="hero">
+  <div class="ey">// For the first time ever — Anthropic takes the lead</div>
+  <div class="title"><span class="a">Anthropic</span> Just Passed <span class="b">OpenAI</span></div>
+  <div class="sub">In business adoption. For the very first time. Here are the real numbers from actual corporate spending data.</div>
+  <div class="source">Source: Ramp AI Index · Ara Kharazian, Ramp economist · Corporate card + invoice spend data · Not a survey</div>
+</div>
+<div class="battle">
+  <div class="side ant">
+    <div class="side-tag">Anthropic · April 2026</div>
+    <div class="side-big">34.4%</div>
+    <div class="side-change change-up">▲ +3.8% from March</div>
+    <div class="side-desc">Of businesses using Anthropic. Quadrupled business adoption in the past 12 months. Claude Code ARR crossed $2.5 billion in February 2026.</div>
+  </div>
+  <div class="vs-mid"><div class="vs-text">VS</div></div>
+  <div class="side oai">
+    <div class="side-tag">OpenAI · April 2026</div>
+    <div class="side-big">32.3%</div>
+    <div class="side-change change-dn">▼ -2.9% from March</div>
+    <div class="side-desc">Of businesses using OpenAI. Business adoption grew only 0.3% over the past 12 months. Codex at 3 million weekly users, up 6x since January 2026.</div>
+  </div>
+</div>
+<div class="chart-wrap">
+  <div class="chart-label">// Business adoption share comparison</div>
+  <div class="brow"><div class="bname" style="color:var(--orange)">Anthropic</div><div class="btrack"><div class="bfill ant-bar" style="--w:86%"></div></div><div class="bval" style="color:var(--orange)">34.4%</div><div class="bchg change-up">+3.8%</div></div>
+  <div class="brow"><div class="bname" style="color:var(--gray)">OpenAI</div><div class="btrack"><div class="bfill oai-bar" style="--w:81%"></div></div><div class="bval" style="color:var(--gray)">32.3%</div><div class="bchg change-dn">-2.9%</div></div>
+  <div class="brow"><div class="bname" style="color:var(--green)">Overall AI</div><div class="btrack"><div class="bfill grn-bar" style="--w:100%"></div></div><div class="bval" style="color:var(--green)">50.6%</div><div class="bchg" style="color:var(--green)">+0.2%</div></div>
+</div>
+<div class="ctx-grid">
+  <div class="ctx"><div class="ctx-val" style="color:var(--orange)">4x</div><div class="ctx-lbl">Anthropic 12-month business adoption growth</div></div>
+  <div class="ctx"><div class="ctx-val" style="color:var(--gray)">+0.3%</div><div class="ctx-lbl">OpenAI 12-month business adoption growth</div></div>
+  <div class="ctx"><div class="ctx-val" style="color:var(--orange)">$2.5B</div><div class="ctx-lbl">Claude Code ARR (Feb 2026)</div></div>
+  <div class="ctx"><div class="ctx-val" style="color:var(--gray)">3M</div><div class="ctx-lbl">Codex weekly users — 6x since Jan 2026</div></div>
+</div>
+<div class="verify">✓ <strong style="color:var(--text)">Verified:</strong> Ramp AI Index uses real corporate card and invoice payment data. Not a survey. Not speculation. ramp.com/data/ai-index</div>
+</body></html>

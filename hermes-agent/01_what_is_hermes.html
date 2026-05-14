@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#040a06;--card:#080f0a;--border:rgba(16,163,127,.15);--green:#10a37f;--gdim:rgba(16,163,127,.1);--gglow:rgba(16,163,127,.2);--text:#e8f5ee;--muted:#5a7a65;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(16,163,127,.06),transparent 65%),repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(16,163,127,.02) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(16,163,127,.015) 40px);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(200vh)}}
+@keyframes counter{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.scan::after{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,rgba(16,163,127,.15),transparent);animation:scanline 6s linear infinite;top:0}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--green);letter-spacing:2px}
+.brand-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 2s step-end infinite}
+.badge{background:var(--gdim);border:1px solid var(--border);color:var(--green);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:20px;opacity:0;animation:rise .5s .1s ease forwards;position:relative;z-index:1}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.05}
+.title .g{color:var(--green)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6;max-width:640px}
+/* Stat counters */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:16px;opacity:0;animation:rise .5s .18s ease forwards}
+.stat{background:var(--card);border:1px solid var(--border);padding:18px 14px;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(16,163,127,.04),transparent)}
+.stat-val{font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;font-family:var(--font)}
+.stat-lbl{font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+.stat-sub{font-size:8px;color:rgba(16,163,127,.4);margin-top:2px}
+/* NOT vs IS */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .26s ease forwards}
+.ccard{background:var(--card);border:1px solid var(--border);padding:18px 16px}
+.ccard.bad{border-color:rgba(239,68,68,.15);background:rgba(239,68,68,.04)}
+.ccard.good{border-color:rgba(16,163,127,.25);background:rgba(16,163,127,.04)}
+.cc-head{font-size:11px;font-weight:700;margin-bottom:12px;letter-spacing:.5px}
+.cc-head.r{color:#ef4444}.cc-head.g{color:var(--green)}
+.cc-item{display:flex;gap:8px;font-size:10px;line-height:1.5;margin-bottom:8px;color:var(--muted)}
+.cc-icon{flex-shrink:0;margin-top:1px}
+.cc-item strong{color:var(--text)}
+/* Capabilities */
+.caps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;opacity:0;animation:rise .5s .34s ease forwards}
+.cap{background:var(--card);border:1px solid var(--border);padding:16px;position:relative;transition:all .2s;cursor:default}
+.cap:hover{border-color:rgba(16,163,127,.35);background:rgba(16,163,127,.06);transform:translateY(-3px)}
+.cap-num{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
+.cap-name{font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px}
+.cap-desc{font-size:10px;color:var(--muted);line-height:1.6}
+.platform-bar{background:rgba(16,163,127,.07);border:1px solid rgba(16,163,127,.15);padding:12px 18px;display:flex;align-items:center;gap:16px;margin-top:14px;opacity:0;animation:rise .5s .42s ease forwards}
+.pb-label{font-size:9px;color:var(--green);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.pb-text{font-size:11px;color:var(--text)}.pb-text span{color:var(--muted)}
+</style></head><body>
+<div class="scan"></div>
+<div class="top">
+  <div class="brand"><div class="brand-dot"></div>HERMES AGENT · Nous Research</div>
+  <div class="badge">MIT LICENSE · FEB 2026</div>
+</div>
+<div class="hero">
+  <div class="ey">// The AI agent that grows with you</div>
+  <div class="title">What is <span class="g">Hermes Agent</span>?</div>
+  <div class="sub">Not a chatbot wrapper. Not a copilot. A self-hosted agent that remembers your work, builds reusable skills, and gets smarter the longer it runs.</div>
+</div>
+<div class="stats">
+  <div class="stat"><div class="stat-val" data-target="114">0</div><div class="stat-lbl">GitHub Stars</div><div class="stat-sub">thousands · growing daily</div></div>
+  <div class="stat"><div class="stat-val" data-target="40">0</div><div class="stat-lbl">Built-in Tools</div><div class="stat-sub">web, browser, code, vision</div></div>
+  <div class="stat"><div class="stat-val">#1</div><div class="stat-lbl">OpenRouter Ranking</div><div class="stat-sub">224B tokens/day globally</div></div>
+  <div class="stat"><div class="stat-val">MIT</div><div class="stat-lbl">License</div><div class="stat-sub">fully open source · no lock-in</div></div>
+</div>
+<div class="compare">
+  <div class="ccard bad">
+    <div class="cc-head r">✗ &nbsp;What Hermes is NOT</div>
+    <div class="cc-item"><span class="cc-icon">—</span><div>A chatbot that <strong>resets after every session</strong></div></div>
+    <div class="cc-item"><span class="cc-icon">—</span><div>A plugin or <strong>IDE extension</strong></div></div>
+    <div class="cc-item"><span class="cc-icon">—</span><div>Tied to <strong>any single model or API</strong></div></div>
+    <div class="cc-item"><span class="cc-icon">—</span><div>Cloud-hosted — <strong>your data sent elsewhere</strong></div></div>
+    <div class="cc-item"><span class="cc-icon">—</span><div>Just a <strong>wrapper around another product</strong></div></div>
+  </div>
+  <div class="ccard good">
+    <div class="cc-head g">✓ &nbsp;What Hermes IS</div>
+    <div class="cc-item"><span class="cc-icon">→</span><div><strong>Persistent memory</strong> — survives across every session</div></div>
+    <div class="cc-item"><span class="cc-icon">→</span><div><strong>Self-hosted</strong> — runs on your machine or $5 VPS</div></div>
+    <div class="cc-item"><span class="cc-icon">→</span><div>Works with <strong>200+ models</strong> via OpenRouter</div></div>
+    <div class="cc-item"><span class="cc-icon">→</span><div>Your data stays in <strong>~/.hermes/ on your machine</strong></div></div>
+    <div class="cc-item"><span class="cc-icon">→</span><div><strong>Skill Documents</strong> — learns from its own work permanently</div></div>
+  </div>
+</div>
+<div class="caps">
+  <div class="cap"><div class="cap-num">01</div><div class="cap-name">Persistent Memory</div><div class="cap-desc">Remembers your projects, preferences, and environment across every session. No re-explaining context every time. It knows you.</div></div>
+  <div class="cap"><div class="cap-num">02</div><div class="cap-name">Skill Documents</div><div class="cap-desc">When it solves a hard problem, it writes a reusable SKILL.md file. Compatible with agentskills.io. Never relearns the same thing.</div></div>
+  <div class="cap"><div class="cap-num">03</div><div class="cap-name">40+ Built-in Tools</div><div class="cap-desc">Web search, full browser automation, sandboxed code execution, image analysis, text-to-speech — all built in. Zero config.</div></div>
+  <div class="cap"><div class="cap-num">04</div><div class="cap-name">Multi-Platform</div><div class="cap-desc">Telegram · Discord · Slack · WhatsApp · Signal · CLI. One agent. One gateway. Reachable from everywhere.</div></div>
+</div>
+<div class="platform-bar">
+  <div class="pb-label">// Platform</div>
+  <div class="pb-text">Linux · macOS: <strong>Fully supported</strong> &nbsp;|&nbsp; Windows: <strong>WSL2 only</strong> (native = experimental) &nbsp;|&nbsp; <span>Data stays in ~/.hermes/ — zero telemetry · zero tracking</span></div>
+</div>
+<script>
+document.querySelectorAll('[data-target]').forEach(el=>{
+  const target=parseInt(el.dataset.target);
+  let n=0; const step=Math.ceil(target/40);
+  const t=setInterval(()=>{n=Math.min(n+step,target);el.textContent=n+'K';if(n>=target)clearInterval(t)},40);
+});
+</script>
+</body></html>

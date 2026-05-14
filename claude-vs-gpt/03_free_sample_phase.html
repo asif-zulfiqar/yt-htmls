@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070709;--card:#0d0d11;--border:rgba(255,255,255,.08);--orange:#f59e0b;--gray:#9ca3af;--text:#f0f0f0;--muted:#888;--green:#10a37f;--red:#ef4444;--blue:#60a5fa;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 700px 400px at 30% 50%,rgba(245,158,11,.04),transparent 60%),radial-gradient(ellipse 700px 400px at 70% 50%,rgba(107,114,128,.04),transparent 60%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fillBar{from{width:0}to{width:var(--w)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards}
+.brand-a{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:1.5px}
+.brand-b{font-size:11px;font-weight:700;color:var(--gray);letter-spacing:1.5px}
+.vs-sep{font-size:11px;color:var(--muted);margin:0 8px}
+.badge{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--orange);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:18px;opacity:0;animation:rise .5s .1s ease forwards}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px}
+.title .a{color:var(--orange)}.title .b{color:var(--gray)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6;max-width:640px}
+.source{font-size:9px;color:rgba(245,158,11,.5);margin-top:4px;letter-spacing:.5px}
+</style>
+<style>
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .18s ease forwards}
+.ph{background:var(--card);border:1px solid var(--border);padding:20px 16px;position:relative;border-top:3px solid}
+.ph1{border-top-color:var(--orange);background:rgba(245,158,11,.05)}
+.ph2{border-top-color:#fbbf24;background:rgba(251,191,36,.03)}
+.ph3{border-top-color:var(--blue);background:rgba(96,165,250,.03)}
+.ph4{border-top-color:var(--red);background:rgba(239,68,68,.05)}
+.here-badge{background:var(--orange);color:#000;font-size:8px;font-weight:800;padding:2px 7px;display:inline-block;margin-bottom:8px;letter-spacing:1px}
+.ph-num{font-size:9px;letter-spacing:2px;margin-bottom:7px}
+.ph1 .ph-num{color:var(--orange)}.ph2 .ph-num{color:#fbbf24}.ph3 .ph-num{color:var(--blue)}.ph4 .ph-num{color:var(--red)}
+.ph-name{font-size:14px;font-weight:800;letter-spacing:-.3px;margin-bottom:7px}
+.ph1 .ph-name{color:var(--orange)}.ph2 .ph-name{color:#fbbf24}.ph3 .ph-name{color:var(--blue)}.ph4 .ph-name{color:var(--red)}
+.ph-desc{font-size:10px;color:var(--muted);line-height:1.65}
+.examples{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .28s ease forwards}
+.eg{background:var(--card);border:1px solid var(--border);padding:14px 16px}
+.eg-brand{font-size:12px;font-weight:800;margin-bottom:8px}
+.eg-then{font-size:10px;color:var(--green);margin-bottom:4px;line-height:1.5}
+.eg-now{font-size:10px;color:var(--red);line-height:1.5}
+.thesis{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:12px;opacity:0;animation:rise .5s .36s ease forwards}
+.th{background:var(--card);border:1px solid var(--border);padding:16px 18px}
+.th-title{font-size:11px;font-weight:700;margin-bottom:9px;letter-spacing:.3px}
+.th-row{display:flex;gap:7px;font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.55}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;opacity:0;animation:rise .5s .44s ease forwards}
+.act{background:var(--card);border:1px solid var(--border);padding:14px 15px;border-top:2px solid}
+.act1{border-top-color:var(--green)}.act2{border-top-color:var(--orange)}.act3{border-top-color:var(--blue)}.act4{border-top-color:var(--muted)}
+.act-name{font-size:11px;font-weight:700;margin-bottom:5px}
+.act1 .act-name{color:var(--green)}.act2 .act-name{color:var(--orange)}.act3 .act-name{color:var(--blue)}.act4 .act-name{color:var(--muted)}
+.act-desc{font-size:10px;color:var(--muted);line-height:1.6}
+</style></head><body>
+<div class="top"><div><span class="brand-a">ANTHROPIC</span><span class="vs-sep">vs</span><span class="brand-b">OPENAI</span></div><div class="badge">THE FREE SAMPLE PHASE</div></div>
+<div class="hero">
+  <div class="ey">// This pattern has happened before — many times</div>
+  <div class="title">The <span class="a">Free Sample</span> Phase</div>
+  <div class="sub">Land grab → habit forms → competition thins → price reset. Not a conspiracy — just the playbook of every platform that ever dominated a market.</div>
+</div>
+<div class="phases">
+  <div class="ph ph1"><div class="here-badge">WE ARE HERE</div><div class="ph-num">PHASE 01</div><div class="ph-name">Land Grab</div><div class="ph-desc">Give away cheap or free access. Build the user base. Hook developers before they realize they're dependent.</div></div>
+  <div class="ph ph2"><div class="ph-num">PHASE 02</div><div class="ph-name">Habit Forms</div><div class="ph-desc">Users can't work without it. If the API goes down, work stops. The tool becomes infrastructure — not just software.</div></div>
+  <div class="ph ph3"><div class="ph-num">PHASE 03</div><div class="ph-name">Competition Thins</div><div class="ph-desc">Alternatives lose ground. Switching costs rise. Market consolidates around 1-2 winners. Data moat is fully built.</div></div>
+  <div class="ph ph4"><div class="ph-num">PHASE 04</div><div class="ph-name">Price Reset</div><div class="ph-desc">Costs go up. Limits tighten. The habit means you pay anyway. The $200/month was the teaser, not the real price.</div></div>
+</div>
+<div class="examples">
+  <div class="eg"><div class="eg-brand" style="color:var(--blue)">Facebook Ads</div><div class="eg-then">Then: Near-zero CPM. Free reach. Perfect for small businesses.</div><div class="eg-now">Now: $50+ CPM for the same audience. Full-time ad managers required.</div></div>
+  <div class="eg"><div class="eg-brand" style="color:var(--orange)">Uber</div><div class="eg-then">Then: Subsidized rides below market cost everywhere.</div><div class="eg-now">Now: Market rate pricing. Surge pricing. No more subsidies.</div></div>
+  <div class="eg"><div class="eg-brand" style="color:var(--red)">Netflix</div><div class="eg-then">Then: $8/month. No ads. No restrictions. "Cancel anytime."</div><div class="eg-now">Now: $22.99. Password limits. Ad-supported tier added.</div></div>
+  <div class="eg"><div class="eg-brand" style="color:var(--muted)">AWS</div><div class="eg-then">Then: Aggressive pricing to win cloud from on-premises.</div><div class="eg-now">Now: Requires dedicated FinOps teams to control costs.</div></div>
+</div>
+<div class="thesis">
+  <div class="th"><div class="th-title" style="color:var(--orange)">What they need right now (not your $200)</div>
+    <div class="th-row"><span>→</span><div><strong style="color:var(--text)">Adoption:</strong> They want you dependent. If Claude Code disappeared, would your work stop? That's the goal.</div></div>
+    <div class="th-row"><span>→</span><div><strong style="color:var(--text)">Data:</strong> Your prompts, workflows, patterns — training data that makes the next model better. Worth more than subscriptions.</div></div>
+    <div class="th-row"><span>→</span><div><strong style="color:var(--text)">Market share:</strong> Enterprise CTO approval takes months. Switching back takes longer. That's the stickiness play.</div></div>
+    <div class="th-row"><span>→</span><div><strong style="color:var(--text)">Reality:</strong> You pay $200/month. Your actual compute usage via direct API = $1,000–$4,000/month. They eat the difference.</div></div>
+  </div>
+  <div class="th"><div class="th-title" style="color:var(--green)">Honest take from the script</div>
+    <div class="th-row"><span>→</span><div>Sam Altman said publicly: "We're currently losing money on Pro subscriptions."</div></div>
+    <div class="th-row"><span>→</span><div>Both companies are eating compute costs that far exceed subscription revenue.</div></div>
+    <div class="th-row"><span>→</span><div>Open source models are getting better AND smaller — may change the equation completely.</div></div>
+    <div class="th-row"><span>→</span><div>This might not even be won by OpenAI or Anthropic. Could be something entirely different.</div></div>
+    <div class="th-row"><span>→</span><div>Best strategy: build portable. Don't get locked in. If Anthropic disappeared, could you move in 1 hour?</div></div>
+  </div>
+</div>
+<div class="actions">
+  <div class="act act1"><div class="act-name">Use Both Hard Now</div><div class="act-desc">50% more Claude Code limits. Free Codex months for enterprise. The cheap window is open. Use it aggressively.</div></div>
+  <div class="act act2"><div class="act-name">Build Portable</div><div class="act-desc">No tool-specific lock-in. CLAUDE.md / AGENTS.md files give context to any agent. Architecture stays model-agnostic.</div></div>
+  <div class="act act3"><div class="act-name">Don't Panic</div><div class="act-desc">This war is happening FOR you as a user right now. Both companies are competing for your usage. Enjoy it.</div></div>
+  <div class="act act4"><div class="act-name">Watch Open Source</div><div class="act-desc">Hermes Agent, OpenClaw, and smaller models getting better fast. A third option may make both irrelevant.</div></div>
+</div>
+</body></html>

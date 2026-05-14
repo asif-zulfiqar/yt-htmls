@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#040a06;--card:#080f0a;--border:rgba(16,163,127,.15);--green:#10a37f;--gdim:rgba(16,163,127,.1);--text:#e8f5ee;--muted:#5a7a65;--red:#ef4444;--blue:#60a5fa;--orange:#f59e0b;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(16,163,127,.06),transparent 65%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fillBar{from{width:0}to{width:var(--w)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards}
+.brand{font-size:12px;font-weight:700;color:var(--green);letter-spacing:2px}
+.badge{background:var(--gdim);border:1px solid var(--border);color:var(--green);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:18px;opacity:0;animation:rise .5s .1s ease forwards}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px}
+.title .g{color:var(--green)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6}
+/* BIG STATS */
+.big-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .18s ease forwards}
+.bs{background:var(--card);border:1px solid var(--border);padding:20px 14px;text-align:center;position:relative;overflow:hidden;transition:all .2s}
+.bs:hover{border-color:rgba(16,163,127,.35);transform:translateY(-3px)}
+.bs::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--green);opacity:.4}
+.bs-val{font-size:26px;font-weight:800;color:var(--green);letter-spacing:-1px}
+.bs-lbl{font-size:9px;color:var(--muted);margin-top:5px;letter-spacing:.5px;line-height:1.5}
+/* STRENGTHS */
+.strengths{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .26s ease forwards}
+.str{background:var(--card);border:1px solid var(--border);padding:16px;border-left:3px solid var(--green)}
+.str-name{font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px}
+.str-desc{font-size:10px;color:var(--muted);line-height:1.6}
+/* TOP APPS */
+.apps-section{margin-bottom:14px;opacity:0;animation:rise .5s .34s ease forwards}
+.section-label{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.app-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);margin-bottom:2px;transition:border-color .2s}
+.app-row:hover{border-color:rgba(16,163,127,.3)}
+.app-rank{font-size:18px;font-weight:800;color:var(--green);width:28px;flex-shrink:0}
+.app-name{font-size:12px;font-weight:700;flex:1}
+.app-bar-wrap{width:300px;height:8px;background:rgba(16,163,127,.1);border-radius:4px;overflow:hidden}
+.app-bar{height:100%;background:var(--green);border-radius:4px;--w:0;animation:fillBar 1.2s ease forwards .4s}
+.app-note{font-size:9px;color:var(--muted);width:120px;text-align:right}
+/* HONEST */
+.honest{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);padding:14px 18px;opacity:0;animation:rise .5s .42s ease forwards}
+.honest-title{font-size:11px;font-weight:700;color:var(--red);margin-bottom:8px;letter-spacing:.5px}
+.honest-item{display:flex;gap:8px;font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5}
+.honest-item strong{color:var(--text)}
+</style></head><body>
+<div class="top"><div class="brand">OWL ALPHA · OpenRouter</div><div class="badge">RELEASED APR 28, 2026</div></div>
+<div class="hero">
+  <div class="ey">// Built specifically for agentic workloads</div>
+  <div class="title">Owl Alpha — The <span class="g">Free 1M Context</span> Model</div>
+  <div class="sub">$0 per million tokens. 1M context window. Native tool use. Designed for AI agents like Hermes.</div>
+</div>
+<div class="big-stats">
+  <div class="bs"><div class="bs-val">$0</div><div class="bs-lbl">per million tokens<br>input AND output</div></div>
+  <div class="bs"><div class="bs-val">1M</div><div class="bs-lbl">token context<br>window</div></div>
+  <div class="bs"><div class="bs-val">Native</div><div class="bs-lbl">tool use<br>agent-ready</div></div>
+  <div class="bs"><div class="bs-val">508B</div><div class="bs-lbl">weekly tokens<br>processed</div></div>
+  <div class="bs"><div class="bs-val">Apr 28</div><div class="bs-lbl">release date<br>2026</div></div>
+</div>
+<div class="strengths">
+  <div class="str"><div class="str-name">Code Generation</div><div class="str-desc">Writes clean, working code without extra hand-holding or correction loops.</div></div>
+  <div class="str"><div class="str-name">Automated Workflows</div><div class="str-desc">Multi-step task execution with native tool calls. Designed for this exact use case.</div></div>
+  <div class="str"><div class="str-name">Complex Instructions</div><div class="str-desc">Follows long, multi-part prompts without losing context mid-execution.</div></div>
+  <div class="str"><div class="str-name">Long-Context Tasks</div><div class="str-desc">1M tokens = entire codebases, long documents, full session histories.</div></div>
+</div>
+<div class="apps-section">
+  <div class="section-label">// Top apps using Owl Alpha right now</div>
+  <div class="app-row"><div class="app-rank">1</div><div class="app-name">Hermes Agent</div><div class="app-bar-wrap"><div class="app-bar" style="--w:90%"></div></div><div class="app-note">#1 globally · 224B tok/day</div></div>
+  <div class="app-row"><div class="app-rank">2</div><div class="app-name">OpenClaw</div><div class="app-bar-wrap"><div class="app-bar" style="--w:62%"></div></div><div class="app-note">former #1 agent</div></div>
+  <div class="app-row"><div class="app-rank">3</div><div class="app-name">Claude Code</div><div class="app-bar-wrap"><div class="app-bar" style="--w:40%"></div></div><div class="app-note">compatible via API</div></div>
+  <div class="app-row"><div class="app-rank">+</div><div class="app-name">Other OpenAI-compatible tools</div><div class="app-bar-wrap"><div class="app-bar" style="--w:28%"></div></div><div class="app-note">growing ecosystem</div></div>
+</div>
+<div class="honest">
+  <div class="honest-title">⚠  Honest Notes — Read Before Using</div>
+  <div class="honest-item"><span>→</span><div><strong>Rate limits (free tier):</strong> ~20 requests/minute · ~200 requests/day. Fine for personal use. Heavy load = add OpenRouter credits.</div></div>
+  <div class="honest-item"><span>→</span><div><strong>Data logging:</strong> Prompts MAY be logged by OpenRouter's provider on the free tier. Do not use for sensitive or private business data.</div></div>
+  <div class="honest-item"><span>→</span><div><strong>Free status:</strong> Owl Alpha is free now. This can change. Alternatives on OpenRouter: Minimax M2.5, NVIDIA Nemotron 3 Super (also free).</div></div>
+</div>
+</body></html>

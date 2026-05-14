@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Anthropic vs OpenAI · Yar Malik</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070709;--bg2:#0d0d11;--bg3:#111117;--border:rgba(255,255,255,.07);--border2:rgba(245,158,11,.25);--orange:#f59e0b;--gray:#9ca3af;--green:#10a37f;--red:#ef4444;--text:#f0f0f0;--muted:rgba(240,240,240,.45);--dim:rgba(240,240,240,.16);--sidebar:265px;--topbar:50px;--status:30px;--font:'JetBrains Mono',monospace}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--font);color:var(--text)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 600px 400px at 25% 50%,rgba(245,158,11,.03),transparent 55%),radial-gradient(ellipse 600px 400px at 75% 50%,rgba(107,114,128,.03),transparent 55%)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.topbar{height:var(--topbar);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:12px;position:relative;z-index:100;animation:fadeIn .4s ease both}
+.tb-brand{display:flex;align-items:center;gap:7px;padding-right:14px;border-right:1px solid var(--border)}
+.brand-a{font-size:11px;font-weight:800;color:var(--orange);letter-spacing:.5px}
+.brand-sep{color:var(--dim);margin:0 5px;font-size:11px}
+.brand-b{font-size:11px;font-weight:800;color:var(--gray);letter-spacing:.5px}
+.tb-ver{font-size:8px;color:var(--orange);letter-spacing:2px;border:1px solid var(--border2);padding:2px 6px;background:rgba(245,158,11,.07);margin-left:8px}
+.tb-nav{display:flex;gap:1px;flex:1}
+.tbn{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);padding:6px 10px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.tbn:hover{color:var(--muted);background:rgba(255,255,255,.02)}
+.tbn.active{color:var(--orange);border-color:var(--border2);background:rgba(245,158,11,.07)}
+.tb-right{display:flex;align-items:center;gap:6px;margin-left:auto}
+.tb-btn{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;padding:5px 11px;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:all .18s;background:transparent;font-family:var(--font)}
+.tb-btn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.tb-btn.g{color:var(--orange);border-color:var(--border2);background:rgba(245,158,11,.07)}
+.tb-btn.g:hover{background:rgba(245,158,11,.14);border-color:var(--orange)}
+.layout{display:flex;height:calc(100vh - var(--topbar) - var(--status));position:relative;z-index:1}
+.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sb-head{padding:13px 15px 11px;border-bottom:1px solid var(--border)}
+.sb-tag{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.sb-desc{font-size:10px;color:var(--muted);line-height:1.5}
+.sb-slabel{padding:9px 15px 6px;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.sb-list{flex:1;overflow-y:auto;padding:3px 0}
+.sb-list::-webkit-scrollbar{width:2px}.sb-list::-webkit-scrollbar-thumb{background:rgba(245,158,11,.15)}
+.sb-item{display:flex;align-items:flex-start;cursor:pointer;border-left:2px solid transparent;transition:all .12s}
+.sb-item:hover{background:rgba(255,255,255,.02)}
+.sb-item.active{background:rgba(245,158,11,.06);border-left-color:var(--orange)}
+.sb-inner{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;width:100%}
+.sb-num{font-size:9px;font-weight:800;color:var(--dim);flex-shrink:0;width:16px;margin-top:1px}
+.sb-item.active .sb-num{color:var(--orange)}
+.sb-info{flex:1;min-width:0}
+.sb-title{font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-item:hover .sb-title,.sb-item.active .sb-title{color:var(--text)}
+.sb-sub{font-size:8px;color:var(--dim);margin-top:2px}
+.sb-item.active .sb-sub{color:rgba(245,158,11,.45)}
+.sb-ind{width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:4px;opacity:0}
+.sb-item.active .sb-ind{opacity:1}
+.sb-bottom{padding:10px 13px;border-top:1px solid var(--border)}
+.sb-battle{display:grid;grid-template-columns:1fr 24px 1fr;gap:2px}
+.sb-side{background:var(--bg3);border:1px solid var(--border);padding:8px;text-align:center}
+.sb-sv{font-size:16px;font-weight:800}.sb-sl{font-size:7px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.sb-vs{display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);font-size:9px;font-weight:800;color:var(--dim)}
+.main{flex:1;display:flex;flex-direction:column}
+.addr-bar{height:36px;flex-shrink:0;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:8px}
+.addr-dots{display:flex;gap:4px}.addr-dot{width:8px;height:8px;border-radius:50%}.addr-dot.r{background:#ff5f57}.addr-dot.y{background:#febc2e}.addr-dot.g{background:#28c840}
+.addr-field{flex:1;background:var(--bg3);border:1px solid var(--border);height:20px;display:flex;align-items:center;padding:0 8px;gap:5px;font-size:9px;color:var(--dim)}
+.addr-lock{font-size:8px;color:var(--orange)}.addr-url{color:var(--muted);flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.addr-action{font-size:8px;color:var(--dim);padding:3px 7px;border:1px solid var(--border);cursor:pointer;transition:all .18s;background:transparent;font-family:var(--font);text-decoration:none;display:flex;align-items:center;gap:3px;margin-left:8px}
+.addr-action:hover{color:var(--orange);border-color:var(--border2)}
+.content{flex:1;position:relative;overflow:hidden;background:var(--bg)}
+.landing{position:absolute;inset:0;overflow-y:auto;padding:44px 52px;z-index:2;transition:opacity .25s}
+.landing.gone{opacity:0;pointer-events:none}
+.land-eyebrow{font-size:10px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.land-title{font-size:clamp(24px,3.8vw,50px);font-weight:800;letter-spacing:-2px;line-height:1.05}
+.land-title .a{color:var(--orange)}.land-title .b{color:var(--gray)}
+.land-sub{font-size:13px;color:var(--muted);margin:10px 0 28px;max-width:560px;line-height:1.6}
+.land-battle{display:grid;grid-template-columns:1fr 60px 1fr;gap:3px;margin-bottom:22px}
+.land-side{background:var(--bg3);border:1px solid;padding:18px 16px}
+.land-side.ant{border-color:rgba(245,158,11,.2)}.land-side.oai{border-color:rgba(107,114,128,.15)}
+.ls-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.ant .ls-tag,.land-side.ant .ls-tag{color:var(--orange)}.land-side.oai .ls-tag{color:var(--gray)}
+.ls-num{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1}
+.land-side.ant .ls-num{color:var(--orange)}.land-side.oai .ls-num{color:var(--gray)}
+.ls-chg{font-size:13px;font-weight:700;margin-top:4px}
+.ls-chg.up{color:var(--green)}.ls-chg.dn{color:var(--red)}
+.land-vs{display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid rgba(245,158,11,.12);font-size:18px;font-weight:800;color:var(--dim)}
+.land-facts{display:flex;flex-direction:column;gap:5px;margin-bottom:22px}
+.lf{display:flex;gap:9px;font-size:11px;color:var(--muted);line-height:1.5}
+.lf-dot{width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
+.lf strong{color:var(--text)}
+.land-cta{display:flex;gap:8px;align-items:center}
+.lcta{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border:1px solid;cursor:pointer;font-family:var(--font);transition:all .18s}
+.lcta.p{color:var(--orange);border-color:var(--border2);background:rgba(245,158,11,.07)}
+.lcta.p:hover{background:rgba(245,158,11,.14);border-color:var(--orange)}
+.lcta.s{color:var(--dim);border-color:var(--border)}
+.lcta.s:hover{color:var(--muted);border-color:rgba(255,255,255,.15)}
+.land-hint{font-size:9px;color:var(--dim)}.kbd{display:inline-block;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;font-size:8px;color:var(--muted)}
+.screen-frame{position:absolute;inset:0;width:1280px;height:720px;border:none;transform-origin:top left;background:var(--bg)}
+.loader{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:var(--bg);z-index:3}
+.loader.on{display:flex}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-icon{width:24px;height:24px;border:2px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
+.loader-txt{font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
+.statusbar{height:var(--status);background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 14px;font-size:9px;color:var(--dim);letter-spacing:.4px;position:relative;z-index:100}
+.st-sep{width:1px;height:12px;background:var(--border);margin:0 9px}
+.st-v{color:var(--orange)}.st-r{margin-left:auto;color:var(--muted)}
+.cursor{display:inline-block;width:5px;height:10px;background:var(--orange);margin-left:3px;animation:blink 1s step-end infinite;vertical-align:middle}
+.cpanel{position:fixed;right:0;top:var(--topbar);bottom:var(--status);width:272px;background:var(--bg2);border-left:1px solid var(--border);z-index:150;transform:translateX(100%);transition:transform .28s;overflow-y:auto}
+.cpanel.on{transform:translateX(0)}
+.cp-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cp-title{font-size:11px;font-weight:700;color:var(--text)}.cp-close{font-size:9px;color:var(--dim);cursor:pointer;background:none;border:none;font-family:var(--font)}
+.cp-body{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.cp-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.cp-beat{font-size:11px;color:var(--text);line-height:1.6;background:var(--bg3);border:1px solid var(--border);padding:9px 11px}
+.cp-actions{display:flex;flex-wrap:wrap;gap:5px}
+.cp-btn{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:transparent;font-family:var(--font);transition:all .15s}
+.cp-btn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}.cp-btn.p{color:var(--orange);border-color:var(--border2);background:rgba(245,158,11,.07)}
+.cp-notes{display:flex;flex-direction:column;gap:6px}
+.cp-note{font-size:10px;color:var(--muted);line-height:1.5;padding:7px 9px;background:var(--bg3);border:1px solid var(--border)}
+.creator-btn{position:fixed;bottom:38px;right:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:5px 11px;border:1px solid var(--border);background:var(--bg2);color:var(--dim);cursor:pointer;z-index:200;font-family:var(--font);transition:all .18s}
+.creator-btn:hover{color:var(--orange);border-color:var(--border2)}
+</style></head><body>
+<div class="topbar">
+  <div class="tb-brand"><span class="brand-a">ANTHROPIC</span><span class="brand-sep">vs</span><span class="brand-b">OPENAI</span><span class="tb-ver">MAY 13 · 2026</span></div>
+  <div class="tb-nav">
+    <div class="tbn active" onclick="showLanding()">Overview</div>
+    <div class="tbn" onclick="go(0)">Market Data</div>
+    <div class="tbn" onclick="go(1)">Tweet War</div>
+    <div class="tbn" onclick="go(2)">Free Sample Phase</div>
+  </div>
+  <div class="tb-right">
+    <button class="tb-btn" onclick="nav(-1)">← Prev</button>
+    <button class="tb-btn" onclick="nav(1)">Next →</button>
+    <button class="tb-btn g" onclick="openCurrent()">↗ Open Tab</button>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-head">
+      <div class="sb-tag">// Yar Malik · AI War Commentary</div>
+      <div class="sb-desc">Anthropic passes OpenAI for the first time. The tweet war. What it means. What you should do.</div>
+    </div>
+    <div class="sb-slabel">// Sections</div>
+    <div class="sb-list" id="sbList"></div>
+    <div class="sb-bottom">
+      <div class="sb-battle">
+        <div class="sb-side"><div class="sb-sv" style="color:var(--orange)">34.4%</div><div class="sb-sl">Anthropic</div></div>
+        <div class="sb-vs">VS</div>
+        <div class="sb-side"><div class="sb-sv" style="color:var(--gray)">32.3%</div><div class="sb-sl">OpenAI</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="addr-bar">
+      <div class="addr-dots"><div class="addr-dot r"></div><div class="addr-dot y"></div><div class="addr-dot g"></div></div>
+      <div class="addr-field"><span class="addr-lock">🔒</span><span class="addr-url" id="addrUrl">yarmalik.youtube · anthropic-vs-openai-2026 · select a section</span></div>
+      <a class="addr-action" id="openBtnAddr" href="#" target="_blank">↗ New Tab</a>
+    </div>
+    <div class="content">
+      <div class="landing" id="landing">
+        <div class="land-eyebrow">// Ramp AI Index · May 13, 2026 · First Time Ever</div>
+        <div class="land-title"><span class="a">Anthropic</span> Just Passed <span class="b">OpenAI</span></div>
+        <div class="land-sub">In business adoption. For the very first time. And then both companies responded with competing offers within the same hour.</div>
+        <div class="land-battle">
+          <div class="land-side ant">
+            <div class="ls-tag">Anthropic · April 2026</div>
+            <div class="ls-num">34.4%</div>
+            <div class="ls-chg up">▲ +3.8% from March</div>
+          </div>
+          <div class="land-vs">VS</div>
+          <div class="land-side oai">
+            <div class="ls-tag">OpenAI · April 2026</div>
+            <div class="ls-num">32.3%</div>
+            <div class="ls-chg dn">▼ -2.9% from March</div>
+          </div>
+        </div>
+        <div class="land-facts">
+          <div class="lf"><div class="lf-dot"></div><div><strong>Source:</strong> Ramp AI Index by Ara Kharazian — real corporate card and invoice spend data. Not a survey.</div></div>
+          <div class="lf"><div class="lf-dot"></div><div><strong>Anthropic 1-year growth:</strong> 4x business adoption. OpenAI: +0.3%. Massive divergence.</div></div>
+          <div class="lf"><div class="lf-dot"></div><div><strong>Sam Altman tweet:</strong> 30 days to get 2 months free Codex — targeting Claude Code enterprise customers.</div></div>
+          <div class="lf"><div class="lf-dot"></div><div><strong>Claude response:</strong> 50% weekly limit increase through July 13 — all Pro, Max, Team, Enterprise users.</div></div>
+          <div class="lf"><div class="lf-dot"></div><div><strong>The pattern:</strong> Land grab → habit → price reset. Uber, Netflix, AWS all did this. We are in Phase 1.</div></div>
+        </div>
+        <div class="land-cta">
+          <button class="lcta p" onclick="go(0)">▶ Start</button>
+          <button class="lcta s" onclick="go(2)">Jump to Free Sample Phase</button>
+          <div class="land-hint">press <span class="kbd">1</span>–<span class="kbd">3</span> to jump · <span class="kbd">←→</span> navigate · <span class="kbd">C</span> creator panel</div>
+        </div>
+      </div>
+      <iframe class="screen-frame" id="frame" src="" title="Section"></iframe>
+      <div class="loader" id="loader"><div class="loader-icon"></div><div class="loader-txt">Loading...</div></div>
+    </div>
+  </div>
+</div>
+<div class="statusbar">
+  <span>Section</span><span class="st-v" id="stSec">&nbsp;—</span>
+  <div class="st-sep"></div>
+  <span>Source</span><span class="st-v">&nbsp;Ramp AI Index · May 13 2026</span>
+  <div class="st-sep"></div>
+  <span>Anthropic</span><span class="st-v">&nbsp;34.4%</span>
+  <div class="st-sep"></div>
+  <span>OpenAI</span><span class="st-v" style="color:var(--gray)">&nbsp;32.3%</span>
+  <div class="st-r"><span id="stFile">← select a section</span><span class="cursor"></span></div>
+</div>
+<button class="creator-btn" onclick="toggleCP()">Creator Panel</button>
+<div class="cpanel" id="cpanel">
+  <div class="cp-head"><div class="cp-title">Creator Panel</div><button class="cp-close" onclick="toggleCP(false)">Close ×</button></div>
+  <div class="cp-body">
+    <div><div class="cp-label">// Key talking point</div><div class="cp-beat" id="cpBeat">Select a section to see talking points.</div></div>
+    <div class="cp-actions">
+      <button class="cp-btn p" onclick="go(0)">Start</button>
+      <button class="cp-btn" onclick="nav(-1)">← Back</button>
+      <button class="cp-btn" onclick="nav(1)">Next →</button>
+      <button class="cp-btn" onclick="copyBeat()">Copy</button>
+    </div>
+    <div><div class="cp-label">// Bullets</div><div class="cp-notes" id="cpNotes"></div></div>
+  </div>
+</div>
+<script>
+const screens=[
+  {title:"Market Data — Ramp AI Index",file:"01_market_shift.html",url:"ramp.com/data/ai-index · econlab.substack.com",
+   beat:"Lead with the data. This is the first time Anthropic has ever passed OpenAI. The numbers are from real corporate card spending — not a poll.",
+   notes:["Anthropic: 34.4% (+3.8%) · OpenAI: 32.3% (-2.9%)","Source: Ramp AI Index — corporate card spend data, NOT a survey","Anthropic 12-month: 4x growth · OpenAI: only +0.3%","Claude Code ARR: $2.5B (Feb 2026)","Codex: 3M weekly users — up 6x since January","Overall AI adoption: 50.6% of businesses — rising","Note: This measures adoption, not quality or which model is 'better'"]},
+  {title:"The Tweet War",file:"02_tweet_war.html",url:"x.com/sama · x.com/ClaudeDevs",
+   beat:"Both responses happened within one hour of each other on the same day the Ramp data dropped. That timing is the story.",
+   notes:["Sam Altman tweet: 12:13 PM May 13 — verified","'30 days to get 2 months free Codex' — targeting enterprise","ClaudeDevs response: less than 1 hour later","50% limits through July 13 — all Pro, Max, Team, Enterprise","Enabled by SpaceX Colossus compute deal","3 Anthropic headwinds from Ramp report itself: incentives, quality issues, token cost increase","This is not coincidence — both teams saw the data that morning"]},
+  {title:"The Free Sample Phase",file:"03_free_sample_phase.html",url:"yarmalik.youtube · commentary",
+   beat:"This is your thesis section. The pattern: land grab → habit → price reset. Facebook Ads, Uber, Netflix, AWS. We are in Phase 1. Use both tools hard while it's cheap.",
+   notes:["Pattern: Land Grab → Habit Forms → Competition Thins → Price Reset","Facebook Ads: once free/cheap, now $50+ CPM","Uber: subsidized rides → market pricing","Netflix: $8/month → $22.99 now","AWS: aggressive early pricing → FinOps discipline required","What they need: Adoption + Data (more valuable than your $200/month)","Sam Altman said publicly: 'We're losing money on Pro subscriptions'","You pay $200/month. Direct API equivalent: $1,000-$4,000/month","Best advice: use both, build portable, don't panic, watch open source"]},
+];
+let cur=-1;
+const sbList=document.getElementById('sbList');
+screens.forEach((s,i)=>{
+  const el=document.createElement('div');el.className='sb-item';
+  el.innerHTML=`<div class="sb-inner"><div class="sb-num">${String(i+1).padStart(2,'0')}</div><div class="sb-info"><div class="sb-title">${s.title}</div></div><div class="sb-ind"></div></div>`;
+  el.addEventListener('click',()=>go(i));sbList.appendChild(el);
+});
+function go(i){
+  if(i<0||i>=screens.length)return;
+  document.getElementById('landing').classList.add('gone');
+  document.querySelectorAll('.sb-item').forEach((el,j)=>el.classList.toggle('active',j===i));
+  document.querySelectorAll('.tbn').forEach((el,j)=>el.classList.toggle('active',j===i+1));
+  const loader=document.getElementById('loader');loader.classList.add('on');
+  const frame=document.getElementById('frame');
+  frame.src=screens[i].file;frame.onload=()=>{loader.classList.remove('on');scale()};
+  document.getElementById('addrUrl').textContent=screens[i].url;
+  document.getElementById('openBtnAddr').href=screens[i].file;
+  document.getElementById('stSec').textContent=' '+String(i+1).padStart(2,'0')+'/03 — '+screens[i].title;
+  document.getElementById('stFile').textContent=screens[i].file;
+  document.getElementById('cpBeat').textContent=screens[i].beat;
+  document.getElementById('cpNotes').innerHTML=screens[i].notes.map(n=>`<div class="cp-note">${n}</div>`).join('');
+  cur=i;
+}
+function showLanding(){document.getElementById('landing').classList.remove('gone');document.getElementById('frame').src='';document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.tbn').forEach((el,j)=>el.classList.toggle('active',j===0));cur=-1;}
+function nav(d){const n=cur+d;if(n>=0&&n<screens.length)go(n);}
+function openCurrent(){if(cur>=0)window.open(screens[cur].file,'_blank');}
+function scale(){const f=document.getElementById('frame');const w=f.parentElement;const s=Math.min(w.clientWidth/1280,w.clientHeight/720)*.97;f.style.transform='scale('+s+')';}
+function toggleCP(v){const p=document.getElementById('cpanel');if(typeof v==='boolean')p.classList.toggle('on',v);else p.classList.toggle('on');}
+async function copyBeat(){try{await navigator.clipboard.writeText(document.getElementById('cpBeat').textContent);}catch(e){}}
+window.addEventListener('resize',scale);scale();
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')nav(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')nav(-1);
+  if(e.key.toLowerCase()==='c')toggleCP();
+  if(e.key==='Escape')showLanding();
+  const n=parseInt(e.key);if(n>=1&&n<=3)go(n-1);
+});
+</script>
+</body></html>

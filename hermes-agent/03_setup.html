@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#040a06;--card:#080f0a;--border:rgba(16,163,127,.15);--green:#10a37f;--gdim:rgba(16,163,127,.1);--text:#e8f5ee;--muted:#5a7a65;--orange:#f59e0b;--blue:#60a5fa;--purple:#a78bfa;--font:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:36px 50px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(16,163,127,.06),transparent 65%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes typeCmd{from{width:0}to{width:100%}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;opacity:0;animation:rise .5s ease forwards}
+.brand{font-size:12px;font-weight:700;color:var(--green);letter-spacing:2px}
+.badge{background:var(--gdim);border:1px solid var(--border);color:var(--green);font-size:9px;padding:3px 11px;letter-spacing:1.5px}
+.hero{margin-bottom:18px;opacity:0;animation:rise .5s .1s ease forwards}
+.ey{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px}
+.title .g{color:var(--green)}
+.sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.6}
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}
+.step{background:var(--card);border:1px solid var(--border);padding:20px 18px;display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;opacity:0;transition:border-color .2s}
+.step:hover{border-color:rgba(16,163,127,.3)}
+.step:nth-child(1){animation:rise .5s .18s ease forwards}
+.step:nth-child(2){animation:rise .5s .26s ease forwards}
+.step:nth-child(3){animation:rise .5s .34s ease forwards}
+.step-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+.s1 .step-num{background:rgba(16,163,127,.15);color:var(--green);border:2px solid var(--green)}
+.s2 .step-num{background:rgba(96,165,250,.1);color:var(--blue);border:2px solid var(--blue)}
+.s3 .step-num{background:rgba(167,139,250,.1);color:var(--purple);border:2px solid var(--purple)}
+.step-body{}
+.step-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.s1 .step-tag{color:var(--green)}.s2 .step-tag{color:var(--blue)}.s3 .step-tag{color:var(--purple)}
+.step-title{font-size:14px;font-weight:700;margin-bottom:8px}
+.cmd-box{background:#020805;border:1px solid rgba(16,163,127,.2);padding:10px 14px;font-size:11px;margin-bottom:8px;position:relative}
+.cmd-box::before{content:'$';color:var(--green);margin-right:8px}
+.cmd-text{color:var(--green);font-weight:600}
+.step-note{font-size:10px;color:var(--muted);line-height:1.6}
+.step-time{font-size:11px;font-weight:700;white-space:nowrap}
+.s1 .step-time{color:var(--green)}.s2 .step-time{color:var(--blue)}.s3 .step-time{color:var(--purple)}
+/* EXTRAS */
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:14px;opacity:0;animation:rise .5s .42s ease forwards}
+.extra{background:var(--card);border:1px solid var(--border);padding:16px 18px}
+.extra-title{font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;letter-spacing:.5px}
+.cmd-sm{background:#020805;border:1px solid rgba(16,163,127,.15);padding:8px 12px;font-size:10px;color:var(--green);margin-bottom:4px}
+.note-sm{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
+.warn-bar{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);padding:11px 18px;font-size:11px;color:#ef9999;display:flex;gap:10px;align-items:center;opacity:0;animation:rise .5s .5s ease forwards}
+</style></head><body>
+<div class="top"><div class="brand">SETUP GUIDE · Hermes + Owl Alpha</div><div class="badge">3 COMMANDS · UNDER 5 MINUTES</div></div>
+<div class="hero">
+  <div class="ey">// Linux · macOS · Windows (WSL2)</div>
+  <div class="title">Get Running in <span class="g">3 Commands</span></div>
+  <div class="sub">No prerequisites. No manual config. Installs everything automatically.</div>
+</div>
+<div class="steps">
+  <div class="step s1">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-tag">Install</div>
+      <div class="step-title">Install Hermes Agent</div>
+      <div class="cmd-box"><span class="cmd-text">curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</span></div>
+      <div class="step-note">Installs Python 3.11, clones the repo, sets up everything. No sudo needed. Works on Linux, macOS, and WSL2.</div>
+    </div>
+    <div class="step-time">~2 min</div>
+  </div>
+  <div class="step s2">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-tag">Configure</div>
+      <div class="step-title">Run Setup Wizard → Select Owl Alpha</div>
+      <div class="cmd-box"><span class="cmd-text">hermes setup</span></div>
+      <div class="step-note">Interactive wizard → Select: OpenRouter → Get free API key at openrouter.ai (no credit card) → Model: openrouter/owl-alpha</div>
+    </div>
+    <div class="step-time">~3 min</div>
+  </div>
+  <div class="step s3">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-tag">Launch</div>
+      <div class="step-title">Start Hermes</div>
+      <div class="cmd-box"><span class="cmd-text">hermes</span></div>
+      <div class="step-note">Full CLI opens. Owl Alpha active. Memory, tools, and skills ready. Type your first task in plain English.</div>
+    </div>
+    <div class="step-time">Instant</div>
+  </div>
+</div>
+<div class="extras">
+  <div class="extra">
+    <div class="extra-title">// Switch models anytime</div>
+    <div class="cmd-sm">$ hermes model</div>
+    <div class="note-sm">Shows full model list. Select any OpenRouter model. Change takes effect immediately.</div>
+    <div class="cmd-sm" style="margin-top:8px">$ hermes update</div>
+    <div class="note-sm">Pull latest changes + reinstall. Run anytime for new features.</div>
+  </div>
+  <div class="extra">
+    <div class="extra-title">// Optional: connect messaging platforms</div>
+    <div class="cmd-sm">$ hermes gateway setup</div>
+    <div class="note-sm">Connects Telegram, Discord, Slack, WhatsApp, Signal.</div>
+    <div class="cmd-sm" style="margin-top:8px">$ hermes gateway</div>
+    <div class="note-sm">Starts the gateway. Agent reaches you from anywhere.</div>
+  </div>
+</div>
+<div class="warn-bar"><span>⚠</span><span><strong>Windows users:</strong> Use WSL2 first. Native Windows support is experimental — not guaranteed to work.</span></div>
+</body></html>
