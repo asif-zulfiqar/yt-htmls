@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>32 Claude Code Tricks · Yar Malik</title>
+<title>30 Claude Code Tricks · Yar Malik</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -11,86 +11,149 @@
   --bg:#070709;--card:#0d0d11;--border:rgba(218,119,86,.12);--border2:rgba(218,119,86,.3);
   --orange:#da7756;--orange2:#f59e0b;--text:#f0f0f0;--muted:#888;--dim:#333;
   --green:#10a37f;--blue:#60a5fa;--purple:#a78bfa;--red:#ef4444;
-  --b:rgba(59,130,246,.25);--i:rgba(16,163,127,.25);--a:rgba(167,139,250,.25);
   --font:'JetBrains Mono',monospace;
 }
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font)}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 1200px 600px at 50% 0%,rgba(218,119,86,.04),transparent 55%);pointer-events:none}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 1200px 600px at 50% 0%,rgba(218,119,86,.04),transparent 55%),
+  repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(218,119,86,.008) 40px);
+  pointer-events:none}
 
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes counter{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* HEADER */
-.header{background:rgba(13,13,17,.95);border-bottom:1px solid var(--border);padding:18px 40px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);animation:fadeIn .4s ease both}
+.header{
+  background:rgba(7,7,9,.96);border-bottom:1px solid var(--border);
+  padding:18px 40px;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(16px);animation:fadeIn .4s ease both
+}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-badge{width:8px;height:8px;background:var(--orange);border-radius:50%;animation:pulse 2s ease-in-out infinite}
-.brand-name{font-size:13px;font-weight:800;color:var(--orange);letter-spacing:.5px}
-.brand-sub{font-size:10px;color:var(--muted);letter-spacing:1px}
-.header-stats{display:flex;gap:20px}
-.hstat{text-align:right}
-.hstat-val{font-size:18px;font-weight:800;color:var(--orange)}
-.hstat-lbl{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-dot{width:8px;height:8px;background:var(--orange);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.brand-text .brand-name{font-size:13px;font-weight:800;color:var(--orange);letter-spacing:.5px}
+.brand-text .brand-sub{font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
+.header-counts{display:flex;gap:2px}
+.hc{background:var(--card);border:1px solid var(--border);padding:8px 14px;text-align:center;min-width:64px}
+.hc-val{font-size:18px;font-weight:800;letter-spacing:-1px}
+.hc-lbl{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.hc.total .hc-val{color:var(--orange)}
+.hc.beg .hc-val{color:var(--blue)}
+.hc.int .hc-val{color:var(--green)}
+.hc.adv .hc-val{color:var(--purple)}
+
 /* FILTERS */
-.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.search{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:7px 12px;font-size:11px;font-family:var(--font);color:var(--text);width:220px;outline:none;transition:border-color .2s}
+.filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.search-wrap{position:relative}
+.search{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  padding:7px 12px 7px 30px;font-size:11px;font-family:var(--font);
+  color:var(--text);width:220px;outline:none;transition:border-color .2s
+}
 .search::placeholder{color:var(--dim)}
 .search:focus{border-color:var(--border2)}
-.fbtns{display:flex;gap:3px}
-.fbtn{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font);background:transparent}
-.fbtn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--dim);pointer-events:none}
+.sep{width:1px;height:22px;background:var(--border);margin:0 2px}
+.fbtns{display:flex;gap:2px}
+.fbtn{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;
+  border:1px solid var(--border);color:var(--muted);cursor:pointer;
+  transition:all .15s;font-family:var(--font);background:transparent
+}
+.fbtn:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
 .fbtn.active{color:var(--orange);border-color:var(--border2);background:rgba(218,119,86,.08)}
-.fbtn.b.active{color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.07)}
-.fbtn.i.active{color:var(--green);border-color:rgba(16,163,127,.3);background:rgba(16,163,127,.07)}
-.fbtn.a.active{color:var(--purple);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.07)}
-.count{font-size:9px;color:var(--muted);margin-left:auto}
+.fbtn.fb.active{color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.07)}
+.fbtn.fi.active{color:var(--green);border-color:rgba(16,163,127,.3);background:rgba(16,163,127,.07)}
+.fbtn.fa.active{color:var(--purple);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.07)}
+.kbd-hint{font-size:8px;color:var(--dim);margin-left:auto;letter-spacing:.5px}
+.kbd{display:inline-block;background:#0a0a0f;border:1px solid var(--border);padding:1px 5px;font-size:8px;color:var(--muted)}
 
 /* MAIN */
-.main{padding:24px 40px}
-.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:10px}
+.main{padding:20px 40px 40px}
+.section-wrap{margin-bottom:4px}
+.section-label{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:10px;margin-top:22px;display:flex;align-items:center;gap:12px;
+  opacity:0;animation:rise .5s ease forwards
+}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.sl-b{color:var(--blue)}.sl-i{color:var(--green)}.sl-a{color:var(--purple)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:3px}
+.section-label .sl-count{
+  font-size:8px;padding:2px 8px;border:1px solid;font-weight:700;letter-spacing:1px
+}
+.sl-b{color:var(--blue)}.sl-b .sl-count{color:var(--blue);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.06)}
+.sl-i{color:var(--green)}.sl-i .sl-count{color:var(--green);border-color:rgba(16,163,127,.25);background:rgba(16,163,127,.06)}
+.sl-a{color:var(--purple)}.sl-a .sl-count{color:var(--purple);border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.06)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:3px}
 
 /* CARDS */
-.card{background:var(--card);border:1px solid var(--border);padding:16px 16px 14px;transition:all .22s cubic-bezier(.16,1,.3,1);position:relative;cursor:default;animation:rise .4s ease both}
-.card:hover{border-color:rgba(218,119,86,.25);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  padding:16px 15px 14px;position:relative;cursor:default;
+  transition:all .22s cubic-bezier(.16,1,.3,1);
+  opacity:0;animation:rise .4s ease forwards
+}
+.card:hover{border-color:rgba(218,119,86,.22);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.55)}
 .card.b-card{border-top:2px solid var(--blue)}
 .card.i-card{border-top:2px solid var(--green)}
 .card.a-card{border-top:2px solid var(--purple)}
 .card.hidden{display:none}
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
-.card-left{display:flex;align-items:center;gap:8px}
-.card-num{font-size:20px;font-weight:800;letter-spacing:-1px;line-height:1;color:var(--dim);transition:color .2s}
-.card:hover .card-num{color:var(--muted)}
-.level-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;font-weight:700}
-.b-card .level-pill{background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
-.i-card .level-pill{background:rgba(16,163,127,.1);color:var(--green);border:1px solid rgba(16,163,127,.2)}
-.a-card .level-pill{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
-.card-type{font-size:8px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
-.cmd-type{color:rgba(218,119,86,.5)}.prompt-type{color:rgba(96,165,250,.4)}.practice-type{color:rgba(16,163,127,.4)}
-.card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3;letter-spacing:-.2px}
-.card-cmd{display:inline-flex;align-items:center;gap:6px;background:#050507;border:1px solid rgba(218,119,86,.15);padding:5px 10px;font-size:10px;color:var(--orange2);margin-bottom:8px;max-width:100%;overflow:hidden;cursor:pointer;transition:all .15s}
-.card-cmd:hover{border-color:rgba(218,119,86,.35);background:#080a0d}
-.card-cmd .copy-icon{font-size:9px;opacity:.6;margin-left:auto;flex-shrink:0}
-.card-cmd:hover .copy-icon{opacity:1}
-.card-desc{font-size:10px;color:var(--muted);line-height:1.65}
-.card-desc strong{color:var(--text);font-weight:600}
-.copied{position:absolute;top:8px;right:8px;font-size:8px;color:var(--green);background:rgba(16,163,127,.1);border:1px solid rgba(16,163,127,.2);padding:2px 7px;opacity:0;transition:opacity .2s}
-.copied.show{opacity:1}
 
-/* EMPTY STATE */
-.empty{display:none;text-align:center;padding:60px 40px;color:var(--dim);font-size:12px;grid-column:1/-1}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.card-left{display:flex;align-items:center;gap:7px}
+.card-num{font-size:22px;font-weight:800;letter-spacing:-1.5px;line-height:1;color:rgba(255,255,255,.12);transition:color .2s;min-width:32px}
+.card:hover .card-num{color:rgba(255,255,255,.22)}
+.lvl-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;font-weight:700;border:1px solid}
+.b-card .lvl-pill{background:rgba(96,165,250,.08);color:var(--blue);border-color:rgba(96,165,250,.2)}
+.i-card .lvl-pill{background:rgba(16,163,127,.08);color:var(--green);border-color:rgba(16,163,127,.2)}
+.a-card .lvl-pill{background:rgba(167,139,250,.08);color:var(--purple);border-color:rgba(167,139,250,.2)}
+.type-tag{font-size:8px;letter-spacing:.8px;text-transform:uppercase;color:var(--dim)}
+.type-cmd{color:rgba(245,158,11,.5)}.type-prompt{color:rgba(96,165,250,.4)}.type-practice{color:rgba(16,163,127,.4)}
+
+.card-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:7px;line-height:1.35;letter-spacing:-.1px}
+
+.cmd-box{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:8px;
+  background:#050507;border:1px solid rgba(218,119,86,.14);
+  padding:7px 10px;margin-bottom:8px;cursor:pointer;
+  transition:all .15s;overflow:hidden
+}
+.cmd-box:hover{border-color:rgba(218,119,86,.3);background:#080a0d}
+.cmd-text{font-size:10px;color:var(--orange2);line-height:1.6;flex:1;word-break:break-all}
+.copy-btn{font-size:9px;color:var(--muted);flex-shrink:0;margin-top:1px;transition:color .15s;white-space:nowrap}
+.cmd-box:hover .copy-btn{color:var(--orange2)}
+
+.card-desc{font-size:10px;color:var(--muted);line-height:1.7}
+.card-desc strong{color:var(--text);font-weight:600}
+.card-desc code{background:rgba(255,255,255,.05);padding:1px 5px;font-family:var(--font);font-size:9px;color:var(--orange2)}
+
+.copied-toast{
+  position:absolute;top:10px;right:10px;font-size:8px;
+  color:var(--green);background:rgba(16,163,127,.1);
+  border:1px solid rgba(16,163,127,.2);padding:3px 8px;
+  opacity:0;transition:opacity .15s;pointer-events:none
+}
+.copied-toast.show{opacity:1}
+
+/* EMPTY */
+.empty{
+  display:none;text-align:center;padding:60px;color:var(--dim);
+  font-size:12px;grid-column:1/-1
+}
 .empty.show{display:block}
 
-/* BOTTOM BAR */
-.bottom-bar{background:rgba(13,13,17,.95);border-top:1px solid var(--border);padding:12px 40px;display:flex;align-items:center;justify-content:space-between;font-size:9px;color:var(--muted);letter-spacing:.5px;position:sticky;bottom:0}
-.bb-left{display:flex;gap:18px}
-.bb-item{display:flex;align-items:center;gap:5px}
-.bb-dot{width:5px;height:5px;border-radius:50%}
-.bb-blue{background:var(--blue)}.bb-green{background:var(--green)}.bb-purple{background:var(--purple)}
+/* FOOTER */
+.footer{
+  background:rgba(7,7,9,.96);border-top:1px solid var(--border);
+  padding:11px 40px;display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;color:var(--dim);letter-spacing:.5px;
+  position:sticky;bottom:0;backdrop-filter:blur(12px)
+}
+.footer-levels{display:flex;gap:18px}
+.fl{display:flex;align-items:center;gap:5px}
+.fl-dot{width:5px;height:5px;border-radius:50%}
 </style>
 </head>
 <body>
@@ -98,242 +161,284 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="header">
   <div class="header-top">
     <div class="brand">
-      <div class="brand-badge"></div>
-      <div>
-        <div class="brand-name">Claude Code — 32 Tricks</div>
-        <div class="brand-sub">Yar Malik · Beginner → Advanced · Verified 2026</div>
+      <div class="brand-dot"></div>
+      <div class="brand-text">
+        <div class="brand-name">Claude Code — 30 Tricks</div>
+        <div class="brand-sub">Yar Malik · Beginner → Advanced · Verified May 2026</div>
       </div>
     </div>
-    <div class="header-stats">
-      <div class="hstat"><div class="hstat-val" id="visCount">32</div><div class="hstat-lbl">Tricks</div></div>
+    <div class="header-counts">
+      <div class="hc total"><div class="hc-val" id="visCount">30</div><div class="hc-lbl">Total</div></div>
+      <div class="hc beg"><div class="hc-val">10</div><div class="hc-lbl">Beginner</div></div>
+      <div class="hc int"><div class="hc-val">12</div><div class="hc-lbl">Inter.</div></div>
+      <div class="hc adv"><div class="hc-val">8</div><div class="hc-lbl">Advanced</div></div>
     </div>
   </div>
   <div class="filters">
-    <input class="search" id="searchInput" placeholder="Search tricks..." oninput="filterCards()">
-    <div class="fbtns">
-      <button class="fbtn active" onclick="setFilter('all',this)">All 32</button>
-      <button class="fbtn b" onclick="setFilter('beginner',this)">Beginner ×10</button>
-      <button class="fbtn i" onclick="setFilter('intermediate',this)">Intermediate ×12</button>
-      <button class="fbtn a" onclick="setFilter('advanced',this)">Advanced ×10</button>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search" id="searchInput" placeholder="Search tricks..." oninput="filterCards()">
     </div>
+    <div class="sep"></div>
+    <div class="fbtns">
+      <button class="fbtn active"  onclick="setFilter('all',this)">All 30</button>
+      <button class="fbtn fb" onclick="setFilter('b',this)">Beginner ×10</button>
+      <button class="fbtn fi" onclick="setFilter('i',this)">Intermediate ×12</button>
+      <button class="fbtn fa" onclick="setFilter('a',this)">Advanced ×8</button>
+    </div>
+    <div class="kbd-hint">press <span class="kbd">/</span> to search · <span class="kbd">Esc</span> to clear</div>
   </div>
 </div>
 
 <div class="main" id="main">
-
-<div class="section-label sl-b">// Beginner — Tricks 1 to 10</div>
-<div class="grid" id="grid-b"></div>
-
-<div class="section-label sl-i">// Intermediate — Tricks 11 to 22</div>
-<div class="grid" id="grid-i"></div>
-
-<div class="section-label sl-a">// Advanced — Tricks 23 to 32</div>
-<div class="grid" id="grid-a"></div>
-
-<div class="empty" id="empty">No tricks match your search.</div>
-
+  <div class="section-wrap" id="wrap-b">
+    <div class="section-label sl-b"><span>// Beginner</span><span class="sl-count">10 tricks</span></div>
+    <div class="grid" id="grid-b"></div>
+  </div>
+  <div class="section-wrap" id="wrap-i">
+    <div class="section-label sl-i"><span>// Intermediate</span><span class="sl-count">12 tricks</span></div>
+    <div class="grid" id="grid-i"></div>
+  </div>
+  <div class="section-wrap" id="wrap-a">
+    <div class="section-label sl-a"><span>// Advanced</span><span class="sl-count">8 tricks</span></div>
+    <div class="grid" id="grid-a"></div>
+  </div>
+  <div class="empty" id="empty">No tricks match — press Esc to reset.</div>
 </div>
 
-<div class="bottom-bar">
-  <div class="bb-left">
-    <div class="bb-item"><div class="bb-dot bb-blue"></div>Beginner — 10 tricks</div>
-    <div class="bb-item"><div class="bb-dot bb-green"></div>Intermediate — 12 tricks</div>
-    <div class="bb-item"><div class="bb-dot bb-purple"></div>Advanced — 10 tricks</div>
+<div class="footer">
+  <div class="footer-levels">
+    <div class="fl"><div class="fl-dot" style="background:var(--blue)"></div>Beginner — 10</div>
+    <div class="fl"><div class="fl-dot" style="background:var(--green)"></div>Intermediate — 12</div>
+    <div class="fl"><div class="fl-dot" style="background:var(--purple)"></div>Advanced — 8</div>
   </div>
-  <div>Click any command to copy · All commands verified May 2026</div>
+  <div>Click any command box to copy · All verified May 2026</div>
 </div>
 
 <script>
 const tricks = [
-  // BEGINNER
-  {n:1,level:'b',type:'cmd',title:'/init — Generate CLAUDE.md',
-   cmd:'/init',
-   desc:'Scans your entire codebase — folders, files, architecture — and writes a <strong>CLAUDE.md</strong> project context file. Run this first on every project. Claude then loads this every session. No more re-explaining your stack.'},
-  {n:2,level:'b',type:'practice',title:'Status Line via Hooks',
-   cmd:'ask claude: "set up a status line hook showing model, context %, and cost"',
-   desc:'Not a slash command — it\'s a <strong>StatusLine hook</strong>. Ask Claude to set one up for you. Generates a script that shows a mini-dashboard at the bottom of your terminal every session.'},
-  {n:3,level:'b',type:'cmd',title:'/voice — Talk to Your Terminal',
-   cmd:'/voice',
-   desc:'Native voice input, newly shipped 2026. Still rolling out to all users — check your version. Alternative: any system dictation tool (macOS dictation, Whisper) lets you type anywhere by talking.'},
-  {n:4,level:'b',type:'practice',title:'Keep Context Small',
-   cmd:null,
-   desc:'No command — pure discipline. <strong>Don\'t dump your entire codebase into one conversation.</strong> Break big problems into small focused steps. One task = one clean context. Less noise = better output. Simple but most people ignore this.'},
-  {n:5,level:'b',type:'cmd',title:'/context — Find Token Bloat',
-   cmd:'/context',
-   desc:'Shows exactly what\'s consuming your tokens: system prompt, file contents, MCP tool definitions — each broken into percentages. If your session feels slow or bloated, run <strong>/context</strong> first. Diagnose before you act.'},
-  {n:6,level:'b',type:'cmd',title:'/compact at 60% + /clear Between Tasks',
-   cmd:'/compact\n/compact — but keep all API integration decisions\n/clear',
-   desc:'At ~60% context: <strong>/compact</strong> compresses history and keeps going. Specify what to keep: "compact but keep all API decisions and DB schema." Switching to a different task entirely? Use <strong>/clear</strong>. Your CLAUDE.md and files still exist.'},
-  {n:7,level:'b',type:'cmd',title:'Plan Mode — Before You Build',
-   cmd:'Shift+Tab   ← cycle modes\nclaude --permission-mode plan   ← start in plan',
-   desc:'In Plan mode Claude reads, researches, asks questions — but changes nothing. It maps the approach, outlines steps, clarifies before writing a line. <strong>Switch out of plan mode when you approve the plan, then execute.</strong> Cuts revision rounds dramatically.'},
-  {n:8,level:'b',type:'prompt',title:'Give Problems, Not Commands',
-   cmd:'"How should we handle growth tracking?"   ← not "write a function"',
-   desc:'Instead of "Write me a function that does X" — describe the problem. <strong>Let Claude reason through the approach first.</strong> When it makes its own assumptions and thinks through decisions, the output is consistently better. Think before you type.'},
-  {n:9,level:'b',type:'prompt',title:'Make Claude Ask Questions',
-   cmd:'"Ask me questions until you\'re 95% confident you understand exactly what I need."',
-   desc:'Paste this in your prompt before a complex task. Claude interrogates the requirement before writing a line. <strong>Prevents 3-4 rounds of revisions</strong> — alignment before execution is always faster.'},
-  {n:10,level:'b',type:'prompt',title:'Self-Checking To-Do Lists',
-   cmd:'"Don\'t move to the next task until you\'re 95% confident this one is done."',
-   desc:'When Claude builds a to-do list, add verification steps: build → screenshot and check → open DevTools for errors. <strong>Quality checks baked into the execution plan.</strong> The V1 you receive has already been through multiple review passes.'},
+// ─── BEGINNER (1–10) ────────────────────────────────────────────
+{n:1,level:'b',type:'cmd',
+ title:'/init — Scan Codebase + Write CLAUDE.md',
+ cmd:'/init',
+ desc:'Scans your entire codebase — folders, files, architecture — and writes a <strong>CLAUDE.md</strong> context file. Run this first on every project. Claude loads it every session. No more re-explaining your stack. Starting from scratch? Ask Claude to write CLAUDE.md by describing your goals and tech stack.'},
 
-  // INTERMEDIATE
-  {n:11,level:'i',type:'prompt',title:'Sub-Agents for Parallel Work',
-   cmd:'"Use sub-agents to handle these tasks in parallel."',
-   desc:'Claude spins up isolated agents — <strong>each with its own fresh 200K context window</strong>. Main thread stays clean. Sub-agents research, write tests, explore approaches. They report back when done. A dev team, not one developer.'},
-  {n:12,level:'i',type:'practice',title:'Custom Commands — .claude/commands/',
-   cmd:'.claude/commands/codereview.md\n.claude/commands/techdebt.md\n.claude/commands/security-scan.md',
-   desc:'Create Markdown files in <strong>.claude/commands/</strong> — each is a reusable workflow. Invoke by name or slash command. Commit to git so your whole team uses the same workflows. ⚠️ Correct path is .claude/commands/ (not .claude/skills/)'},
-  {n:13,level:'i',type:'cmd',title:'Haiku for Sub-Agents — Cheaper Tokens',
-   cmd:'/model haiku   ← inside sub-agent\n/model sonnet  ← main thread',
-   desc:'Sub-agents doing simple work (scraping, reading bulk data, summarizing)? Use <strong>Haiku — it\'s faster and cheaper</strong>. Reading 100K tokens of articles to extract highlights doesn\'t need Opus. Main thread stays on Sonnet or Opus.'},
-  {n:14,level:'i',type:'practice',title:'Keep CLAUDE.md Updated and Lean',
-   cmd:'"Update CLAUDE.md with new patterns, gotchas, and conventions from this session."',
-   desc:'After every session, have Claude log what it learned. But <strong>keep it under ~2,500 tokens (150-200 lines)</strong> — it loads into every conversation. Bloated CLAUDE.md = wasted context tokens on every single message.'},
-  {n:15,level:'i',type:'practice',title:'CLAUDE.md Routes to Other Files',
-   cmd:'In CLAUDE.md:\n"Style guide → see STYLE_GUIDE.md\nAPI docs → see docs/api.md"',
-   desc:'Keep CLAUDE.md lean by pointing to other files. <strong>Claude knows where to look without loading everything upfront.</strong> System prompt stays small. Full detail available on demand. Best of both worlds.'},
-  {n:16,level:'i',type:'practice',title:'Exit Early and Re-Prompt',
-   cmd:'Esc   ← interrupt any running task',
-   desc:'If Claude starts going the wrong direction — <strong>hit Escape immediately</strong>. Don\'t wait for it to finish. Every token spent on the wrong path is wasted context. Correct early. Re-prompt cleanly. Steer tight.'},
-  {n:17,level:'i',type:'prompt',title:'Challenge Outputs Aggressively',
-   cmd:'"Scrap that. Give me a more elegant version."\n"Try a completely different approach."',
-   desc:'If Claude gives you something okay — push back. <strong>Second-try outputs are often dramatically better</strong> when you set a higher bar. When it returns something better, tell it to update CLAUDE.md so it doesn\'t make that mistake again.'},
-  {n:18,level:'i',type:'practice',title:'Git for Undos (No /re Command)',
-   cmd:'git diff           ← see all changes\ngit checkout .     ← revert everything\ngit stash          ← save for later',
-   desc:'There is no /re undo command in Claude Code. <strong>Git is your undo system.</strong> Use it properly. Stage before every session so you can always revert. Git gives you full history, not just one step back.'},
-  {n:19,level:'i',type:'cmd',title:'Hooks for Notifications',
-   cmd:'/hooks\nask: "set up a Stop hook that plays a sound when you finish"',
-   desc:'Set up a <strong>Stop hook</strong> — fires when Claude finishes a task. Run 10 parallel sessions and you\'ll hear which one needs your input. No more manually checking if Claude is done.'},
-  {n:20,level:'i',type:'prompt',title:'Screenshots for Visual Feedback Loop',
-   cmd:'"Build the page. Screenshot it. Analyze the layout. Improve. Repeat 3× before showing me V1."',
-   desc:'Claude can see. Feed it screenshots of error messages, UI inspiration, competitor sites. <strong>Build a self-check loop</strong> — by the time V1 reaches you, it\'s already been through 3 visual review passes.'},
-  {n:21,level:'i',type:'prompt',title:'Chrome DevTools for Functionality Checks',
-   cmd:'"Open the app. Test the signup flow. Check DevTools for console errors."',
-   desc:'Claude can open a browser, click buttons, fill forms, read the console. <strong>Pair with screenshots for the full self-review loop.</strong> Build → Visual check → Functional check → then show you. Major quality improvement.'},
-  {n:22,level:'i',type:'prompt',title:'Clone Inspiration Sites',
-   cmd:'"Recreate this design pattern." + screenshot of site',
-   desc:'Screenshot a site you like. Feed it to Claude. It extracts structure, spacing, visual hierarchy — <strong>without making it generic AI output.</strong> Also works with actual CSS/HTML from the source for even closer recreation.'},
+{n:2,level:'b',type:'cmd',
+ title:'Plan Mode — Think Before You Build',
+ cmd:'Shift+Tab   ← cycle modes in session\nclaude --permission-mode plan   ← start in plan mode',
+ desc:'In Plan mode Claude reads, researches, and asks questions — but <strong>changes nothing.</strong> It maps the approach and outlines steps before writing a single line. Switch out of plan mode when you approve the plan, then execute. Cuts revision rounds dramatically.'},
 
-  // ADVANCED
-  {n:23,level:'a',type:'cmd',title:'Git Worktrees for Parallel Sessions',
-   cmd:'claude -w feature/new-auth\nclaude -w feature/payment-refactor\nclaude -w feature/dashboard-v2',
-   desc:'-w creates an isolated git worktree — <strong>a parallel copy of your project on its own branch.</strong> Open multiple terminals, each runs independently. Agents can\'t overwrite each other. Merge branches when done, like any normal git workflow.'},
-  {n:24,level:'a',type:'practice',title:'API Endpoints Instead of MCP When Token-Tight',
-   cmd:'hardcode the specific endpoint:\ncurl -H "Authorization: Bearer $TOKEN" https://api.notion.com/v1/databases/YOUR_DB_ID',
-   desc:'MCP servers load ALL their tool definitions into context — even tools you never use. <strong>If you only need one Notion database, hardcode that endpoint.</strong> Saves hundreds of tokens per session. Massive at scale.'},
-  {n:25,level:'a',type:'cmd',title:'/goal and Scheduled Task Loops',
-   cmd:'/goal   ← Claude keeps running until the goal is verified complete\n"Every 5 minutes check the deployment status."   ← natural language scheduling',
-   desc:'<strong>/goal</strong> starts a completion loop — Claude keeps working until it verifies the goal is done. For recurring tasks, describe them in natural language. Loops are session-based. For persistent automation, use desktop scheduled tasks (each run = fresh session, no context memory).'},
-  {n:26,level:'a',type:'practice',title:'VPS for Always-On Sessions',
-   cmd:'ssh user@your-vps\nclaude   ← stays running when laptop closes',
-   desc:'Host Claude Code on a cheap VPS ($5–10/mo). <strong>Session stays running when your laptop is closed.</strong> SSH in anytime to check and interact. Connect via Telegram gateway for remote messaging. Perfect for long-running background tasks.'},
-  {n:27,level:'a',type:'practice',title:'Remote Control via Web UI',
-   cmd:null,
-   desc:'Claude Code has a web UI — control local sessions from any browser, including your phone. <strong>Start a task at your desk, walk away, keep steering from your phone.</strong> Code stays on your local machine. Only the connection is remote.'},
-  {n:28,level:'a',type:'practice',title:'No-SQL Data Analytics with CLI Tools',
-   cmd:'# Connect BigQuery CLI, then ask:\n"What were our top 10 revenue sources last quarter?"',
-   desc:'Connect CLI tools like BigQuery\'s bq tool to Claude Code. <strong>Ask in plain English — Claude translates to query, runs it, returns the result.</strong> No SQL required. Works for any CLI-accessible data tool.'},
-  {n:29,level:'a',type:'cmd',title:'ultrathink — Maximum Reasoning Budget',
-   cmd:'ultrathink   ← type anywhere in your prompt\nalso: think / think hard / think harder   ← progressively more budget',
-   desc:'Triggers <strong>31,999 token pre-response reasoning budget.</strong> Use it for: architecture decisions, complex debugging, big refactors, or when Claude keeps giving wrong outputs. Don\'t use for simple fixes — costs more tokens. Save it for whole-system decisions.'},
-  {n:30,level:'a',type:'practice',title:'Edit Permissions for Safe Autonomy',
-   cmd:'In .claude/settings.json:\n{ "permissions": {\n  "allow": ["Bash(npm:*)", "Bash(git:*)"],\n  "deny":  ["Bash(rm:*)", "Bash(rmdir:*)"]\n}}',
-   desc:'Explicitly allow safe commands. Explicitly deny destructive ones. <strong>Deny list always wins over allow list.</strong> Get the same speed as --dangerously-skip-permissions without the danger. Smarter than blanket "skip all permissions."'},
-  {n:31,level:'a',type:'practice',title:'Agent Teams — Agents That Talk to Each Other',
-   cmd:null,
-   desc:'Sub-agents work in parallel but can\'t communicate. <strong>Agent teams CAN communicate — shared task list, they assign each other work.</strong> You can talk directly to any individual agent. More expensive and slower but produces cohesive output for large projects. Use for features where parts depend on each other.'},
-  {n:32,level:'a',type:'cmd',title:'Context7 MCP — Live Documentation',
-   cmd:'npx -y @upstash/context7-mcp   ← install\nthen tell claude: "use context7 for Next.js docs"',
-   desc:'Gives Claude access to <strong>live, version-specific docs for thousands of libraries</strong>: Next.js, React, MongoDB, Prisma, and more. Claude\'s training data has a cutoff — it sometimes suggests deprecated APIs. Context7 injects current docs before Claude writes code. One install, permanent quality improvement.'},
+{n:3,level:'b',type:'practice',
+ title:'Status Line via Hooks',
+ cmd:'ask claude: "set up a status line hook showing model, context %, and cost"',
+ desc:'Not a slash command — it is a <strong>StatusLine hook.</strong> Ask Claude to build it for you. Generates a script that shows a mini-dashboard at the bottom of your terminal every session — model, context usage, cost. Always know how much context you have left.'},
+
+{n:4,level:'b',type:'cmd',
+ title:'/context — Find Your Token Bloat',
+ cmd:'/context',
+ desc:'Shows exactly what is consuming your tokens — system prompt, file contents, MCP tool definitions — each broken into percentages. <strong>Session feels slow or bloated? Run /context first.</strong> Diagnose where the problem is before you try to fix anything.'},
+
+{n:5,level:'b',type:'cmd',
+ title:'/compact at 60% — Then /clear Between Tasks',
+ cmd:'/compact\n/compact — but keep all API integration decisions and DB schema\n/clear',
+ desc:'At ~60% context: <strong>/compact</strong> compresses conversation history and keeps going. You can specify what to preserve: "compact but keep all API decisions and database schema." Switching to a completely different task? Use <strong>/clear</strong> — clean slate. Your CLAUDE.md and project files still exist.'},
+
+{n:6,level:'b',type:'practice',
+ title:'Keep Context Small',
+ cmd:null,
+ desc:'No command — pure discipline. <strong>Do not dump your entire codebase into one conversation.</strong> Only give Claude what it needs for the current task. Break big problems into small focused steps. One task = one clean context window. Less noise = better output. Simple but most people skip this.'},
+
+{n:7,level:'b',type:'cmd',
+ title:'/voice — Talk to Your Terminal',
+ cmd:'/voice',
+ desc:'Native voice input, newly shipped in 2026. Talk to Claude Code directly — words appear in your terminal. Still rolling out to all users — check your version. Alternative: any system dictation tool (macOS dictation, Whisper) lets you voice-type anywhere on screen.'},
+
+{n:8,level:'b',type:'prompt',
+ title:'Give Problems, Not Commands',
+ cmd:'"How should we handle growth tracking?"   ← not "write a function that does X"',
+ desc:'Instead of "Write me a function that does X" — describe the problem. <strong>Let Claude reason through the approach first.</strong> When it thinks through decisions itself, the output is consistently better. Treat it like a developer you are pair programming with, not a code generator.'},
+
+{n:9,level:'b',type:'prompt',
+ title:'Make Claude Ask Questions First',
+ cmd:'"Ask me questions until you are 95% confident you understand exactly what I need."',
+ desc:'Paste this before any complex task. Claude interrogates the requirement before writing a line. <strong>Prevents 3–4 rounds of revisions</strong> — alignment before execution is always faster. Works especially well combined with Plan mode.'},
+
+{n:10,level:'b',type:'prompt',
+ title:'Self-Checking To-Do Lists',
+ cmd:'"Do not move to the next task until you are 95% confident this one is done."',
+ desc:'When Claude builds a to-do list, add verification steps right into it: Build → screenshot and check layout → open DevTools and check for errors → then continue. <strong>Quality checks baked into the execution plan.</strong> V1 you receive has already been through multiple review passes.'},
+
+// ─── INTERMEDIATE (11–22) ────────────────────────────────────────
+{n:11,level:'i',type:'practice',
+ title:'Keep CLAUDE.md Updated and Lean',
+ cmd:'"Update CLAUDE.md with what you learned this session — new patterns, gotchas, conventions."',
+ desc:'After every session, have Claude log discoveries. But <strong>keep it under ~2,500 tokens (150–200 lines)</strong> — it loads into every conversation. Bloated CLAUDE.md = wasted context tokens on every single message. Keep it tight. Only the most important context in there.'},
+
+{n:12,level:'i',type:'practice',
+ title:'CLAUDE.md Routes to Other Files',
+ cmd:'In CLAUDE.md:\n"Style guide → see STYLE_GUIDE.md\nAPI docs → see docs/api.md\nBusiness context → see context/business.md"',
+ desc:'Keep CLAUDE.md lean by pointing to other files rather than including everything. <strong>Claude knows where to look without loading it all upfront.</strong> System prompt stays small. Full detail available on demand. Best of both worlds — context-efficient and information-complete.'},
+
+{n:13,level:'i',type:'prompt',
+ title:'Sub-Agents for Parallel Work',
+ cmd:'"Use sub-agents to handle these three tasks in parallel."',
+ desc:'Claude spins up isolated agents — <strong>each with its own fresh 200K context window.</strong> Main thread stays clean. Sub-agents research, write tests, explore different approaches simultaneously. They report back when done. A dev team, not one developer.'},
+
+{n:14,level:'i',type:'cmd',
+ title:'Haiku for Sub-Agents — Cheaper Tokens',
+ cmd:'/model haiku   ← inside a sub-agent\n/model sonnet  ← main thread stays here',
+ desc:'Sub-agents doing bulk work — scraping articles, reading large datasets, summarizing? Use <strong>Haiku: faster and much cheaper.</strong> Reading 100K tokens of content to extract key highlights does not need Opus. Main thread stays on Sonnet or Opus for quality decisions.'},
+
+{n:15,level:'i',type:'practice',
+ title:'Custom Commands — .claude/commands/',
+ cmd:'.claude/commands/codereview.md\n.claude/commands/techdebt.md\n.claude/commands/security-scan.md',
+ desc:'Create Markdown files in <strong>.claude/commands/</strong> — each is a reusable workflow with exact instructions. Invoke by name in natural language or as a slash command. Commit to git so your whole team uses the same workflows. Automate your SOPs. ⚠️ Correct path: .claude/commands/ not .claude/skills/'},
+
+{n:16,level:'i',type:'practice',
+ title:'Exit Early and Re-Prompt',
+ cmd:'Esc   ← interrupt any running task immediately',
+ desc:'If Claude starts going the wrong direction — <strong>hit Escape immediately.</strong> Do not wait for it to finish. Every token spent going the wrong way is wasted context. Correct course early and re-prompt cleanly. Steer tight. At the end of the day, it is AI.'},
+
+{n:17,level:'i',type:'prompt',
+ title:'Challenge Outputs Aggressively',
+ cmd:'"Scrap that. Give me a more elegant version."\n"This is not good enough. Try a completely different approach."',
+ desc:'If Claude gives you something just okay — push back hard. <strong>Second-try outputs are often dramatically better</strong> when you set a higher bar and it knows what not to do. When it returns something better, tell it to update CLAUDE.md so it does not repeat the mistake.'},
+
+{n:18,level:'i',type:'practice',
+ title:'Git for Undos — Not a Slash Command',
+ cmd:'git diff           ← see all changes Claude made\ngit checkout .     ← revert everything\ngit stash          ← save changes for later',
+ desc:'There is no /re undo command in Claude Code. <strong>Git is your undo system.</strong> Stage your work before every Claude session so you can always revert cleanly. Use git properly and you will never lose work — full history, not just one step back.'},
+
+{n:19,level:'i',type:'cmd',
+ title:'Hooks for Notifications',
+ cmd:'/hooks\nask claude: "set up a Stop hook that plays a sound notification when you finish"',
+ desc:'Set up a <strong>Stop hook</strong> — fires every time Claude finishes a task. Run 10 parallel sessions and you hear a sound when any one of them needs your input. No more manually checking. Just work on something else and respond when you hear the notification.'},
+
+{n:20,level:'i',type:'prompt',
+ title:'Screenshots — Visual Self-Check Loop',
+ cmd:'"Build the page. Screenshot it. Analyze the layout. Make improvements. Repeat 3 times before showing me V1."',
+ desc:'Claude can see images. Feed it error messages, UI inspiration, competitor sites. Build a self-check loop: <strong>design → screenshot → analyze → improve → repeat.</strong> By the time V1 reaches you it has already been through 3 visual review passes. V1 quality jumps significantly.'},
+
+{n:21,level:'i',type:'prompt',
+ title:'Chrome DevTools — Functionality Checks',
+ cmd:'"Open the app in a browser. Test the signup flow. Check DevTools for console errors."',
+ desc:'Claude can open a browser, click buttons, fill forms, check the console. <strong>Pair with screenshots for the full self-review loop.</strong> Build → visual check → functional check → then show you. This is especially big for front-end work — catches bugs before you ever see V1.'},
+
+{n:22,level:'i',type:'prompt',
+ title:'Clone Inspiration Sites',
+ cmd:'"Recreate this design pattern." + screenshot of the site\n+ paste relevant CSS/HTML for even closer output',
+ desc:'Screenshot a site you like. Feed it to Claude with the prompt. It extracts structure, spacing, visual hierarchy — <strong>without making it look like generic AI output.</strong> Also works with actual CSS/HTML from the source. Take the clone as a template and give it your own touch.'},
+
+// ─── ADVANCED (23–30) ────────────────────────────────────────────
+{n:23,level:'a',type:'cmd',
+ title:'ultrathink — Maximum Reasoning Budget',
+ cmd:'ultrathink   ← type anywhere in your prompt\nalso works: think / think hard / think harder   ← progressively more budget',
+ desc:'Triggers <strong>31,999 token pre-response reasoning budget</strong> — maximum Claude thinks before it responds. Use for: architecture decisions, complex debugging, big refactors, or when Claude keeps giving wrong outputs after multiple tries. Do not use for simple fixes — costs more tokens. Reserve it for whole-system decisions.'},
+
+{n:24,level:'a',type:'practice',
+ title:'Edit Permissions for Safe Autonomy',
+ cmd:'In .claude/settings.json:\n{\n  "permissions": {\n    "allow": ["Bash(npm:*)", "Bash(git:*)"],\n    "deny":  ["Bash(rm:*)", "Bash(rmdir:*)"]\n  }\n}',
+ desc:'Explicitly allow safe commands. Explicitly deny destructive ones. <strong>Deny list always wins over allow list.</strong> You get the same speed and autonomy as --dangerously-skip-permissions without the actual danger. Anything destructive is always blocked regardless of what the allow list says.'},
+
+{n:25,level:'a',type:'cmd',
+ title:'Git Worktrees for True Parallel Sessions',
+ cmd:'claude -w feature/new-auth\nclaude -w feature/payment-refactor\nclaude -w feature/dashboard',
+ desc:'-w creates an isolated git worktree — <strong>a parallel copy of your project on its own branch.</strong> Open multiple terminals, each Claude session works independently. Agents cannot overwrite each other. Run 3, 4, or 5 simultaneously. Merge branches when done — all work preserved.'},
+
+{n:26,level:'a',type:'cmd',
+ title:'/goal — Completion Loops',
+ cmd:'/goal   ← Claude keeps running until the goal is verified complete\n"Every 5 minutes check the deployment status."   ← natural language loop',
+ desc:'<strong>/goal</strong> starts a completion loop — Claude keeps working until it verifies the goal is actually done. For recurring checks, describe them naturally: "every 5 minutes monitor the PR." Runs in the background, only interrupts when something needs your attention. Note: session-based — does not persist after closing.'},
+
+{n:27,level:'a',type:'practice',
+ title:'VPS for Always-On Sessions',
+ cmd:'ssh user@your-vps   ← connect anytime\nclaude              ← session stays running when laptop closes',
+ desc:'Host Claude Code on a cheap VPS ($5–10/month). <strong>Session stays running when your laptop is closed.</strong> SSH in whenever you need to check or interact. Connect via Telegram gateway so the agent messages you directly. Perfect for long-running background tasks you do not want to babysit.'},
+
+{n:28,level:'a',type:'practice',
+ title:'Remote Control From Your Phone',
+ cmd:null,
+ desc:'Claude Code has a web UI — control local sessions from any browser including your phone. <strong>Start a heavy task at your desk, walk away, keep steering it from your pocket.</strong> Your code never leaves your local machine — only the connection is remote. Start something, go get coffee, keep building.'},
+
+{n:29,level:'a',type:'practice',
+ title:'Agent Teams — Agents That Talk to Each Other',
+ cmd:null,
+ desc:'Sub-agents work in parallel but cannot communicate with each other. <strong>Agent teams CAN communicate</strong> — they share a task list, assign each other work, coordinate on outputs. You can talk directly to any individual agent. More expensive and slower but produces much more cohesive output for large complex projects.'},
+
+{n:30,level:'a',type:'practice',
+ title:'No-SQL Data Analytics With CLI Tools',
+ cmd:'# Connect BigQuery bq CLI, then ask in plain English:\n"What were our top 10 revenue sources last quarter?"',
+ desc:'Connect CLI tools like BigQuery bq to Claude Code. <strong>Ask questions in plain English — Claude translates to the right query, runs it, and gives you the result.</strong> No SQL knowledge required. Works for any CLI-accessible data tool. Instant analytics from natural language.'},
 ];
 
 const grids = {b:'grid-b', i:'grid-i', a:'grid-a'};
+const wraps = {b:'wrap-b', i:'wrap-i', a:'wrap-a'};
 let activeFilter = 'all';
 let searchTerm = '';
 
-function renderCards() {
-  Object.values(grids).forEach(id => { document.getElementById(id).innerHTML = ''; });
-  let visible = 0;
-  tricks.forEach((t, idx) => {
-    const matchLevel = activeFilter === 'all' || t.level === activeFilter.slice(0, 1);
-    const matchSearch = !searchTerm ||
-      t.title.toLowerCase().includes(searchTerm) ||
-      t.desc.toLowerCase().includes(searchTerm) ||
-      (t.cmd && t.cmd.toLowerCase().includes(searchTerm));
-    if (!matchLevel || !matchSearch) return;
+function renderCards(){
+  Object.values(grids).forEach(id=>{document.getElementById(id).innerHTML=''});
+  let visible=0;
+  tricks.forEach((t,idx)=>{
+    const matchLevel = activeFilter==='all' || t.level===activeFilter;
+    const q = searchTerm;
+    const matchSearch = !q || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || (t.cmd&&t.cmd.toLowerCase().includes(q));
+    if(!matchLevel||!matchSearch) return;
     visible++;
-    const card = document.createElement('div');
-    card.className = `card ${t.level}-card`;
-    card.style.animationDelay = (idx * 0.02) + 's';
-    const typeLabel = t.type === 'cmd' ? '<span class="card-type cmd-type">⌘ COMMAND</span>'
-      : t.type === 'prompt' ? '<span class="card-type prompt-type">✦ PROMPT</span>'
-      : '<span class="card-type practice-type">◎ PRACTICE</span>';
-    const levelBadge = t.level === 'b' ? 'BEGINNER' : t.level === 'i' ? 'INTERMEDIATE' : 'ADVANCED';
-    const cmdHtml = t.cmd ? `<div class="card-cmd" onclick="copyCmd(this,'${t.cmd.replace(/'/g,"\\'")}')"><span>${t.cmd.split('\n')[0]}</span><span class="copy-icon">⎘ copy</span></div>` : '';
-    card.innerHTML = `
+    const card=document.createElement('div');
+    card.className=`card ${t.level}-card`;
+    card.style.animationDelay=(idx*0.018)+'s';
+    const lvlTxt = t.level==='b'?'Beginner':t.level==='i'?'Intermediate':'Advanced';
+    const typeTxt = t.type==='cmd'?'<span class="type-tag type-cmd">⌘ command</span>':t.type==='prompt'?'<span class="type-tag type-prompt">✦ prompt</span>':'<span class="type-tag type-practice">◎ practice</span>';
+    const cmdHtml = t.cmd ? `<div class="cmd-box" onclick="copyCmd(this,'${t.cmd.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"><span class="cmd-text">${t.cmd.replace(/\n/g,'<br>')}</span><span class="copy-btn">⎘ copy</span></div>` : '';
+    card.innerHTML=`
       <div class="card-top">
         <div class="card-left">
-          <div class="card-num">${String(t.n).padStart(2,'0')}</div>
-          <span class="level-pill">${levelBadge}</span>
+          <span class="card-num">${String(t.n).padStart(2,'0')}</span>
+          <span class="lvl-pill">${lvlTxt}</span>
         </div>
-        ${typeLabel}
+        ${typeTxt}
       </div>
       <div class="card-title">${t.title}</div>
       ${cmdHtml}
       <div class="card-desc">${t.desc}</div>
-      <div class="copied" id="copied-${t.n}">Copied!</div>
+      <div class="copied-toast" id="toast-${t.n}">✓ Copied</div>
     `;
     document.getElementById(grids[t.level]).appendChild(card);
   });
-  document.getElementById('visCount').textContent = visible;
-  document.getElementById('empty').classList.toggle('show', visible === 0);
-  // Show/hide section labels
-  ['b','i','a'].forEach(l => {
-    const grid = document.getElementById(grids[l]);
-    const label = grid.previousElementSibling;
-    const hasCards = grid.children.length > 0;
-    grid.style.display = hasCards ? '' : 'none';
-    if (label) label.style.display = hasCards ? '' : 'none';
+  document.getElementById('visCount').textContent=visible;
+  document.getElementById('empty').classList.toggle('show',visible===0);
+  ['b','i','a'].forEach(l=>{
+    const hasCards=document.getElementById(grids[l]).children.length>0;
+    document.getElementById(wraps[l]).style.display=hasCards?'':'none';
   });
 }
 
-function setFilter(f, btn) {
-  activeFilter = f;
-  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderCards();
 }
 
-function filterCards() {
-  searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+function filterCards(){
+  searchTerm=document.getElementById('searchInput').value.toLowerCase().trim();
   renderCards();
 }
 
-async function copyCmd(el, cmd) {
-  const fullCmd = cmd.replace(/\\n/g, '\n');
-  try {
-    await navigator.clipboard.writeText(fullCmd);
-  } catch(e) {
-    const ta = document.createElement('textarea');
-    ta.value = fullCmd;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-  }
-  const num = el.closest('.card').querySelector('.copied');
-  if (num) { num.classList.add('show'); setTimeout(() => num.classList.remove('show'), 1500); }
+async function copyCmd(el,cmd){
+  const text=cmd.replace(/\\n/g,'\n');
+  try{await navigator.clipboard.writeText(text)}
+  catch(e){const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}
+  const toast=el.closest('.card').querySelector('.copied-toast');
+  if(toast){toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1400)}
 }
 
 renderCards();
 
-// Keyboard shortcuts
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { document.getElementById('searchInput').value = ''; searchTerm = ''; renderCards(); }
-  if (e.key === '/' && document.activeElement !== document.getElementById('searchInput')) {
-    e.preventDefault(); document.getElementById('searchInput').focus();
-  }
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){document.getElementById('searchInput').value='';searchTerm='';renderCards()}
+  if(e.key==='/'&&document.activeElement!==document.getElementById('searchInput')){e.preventDefault();document.getElementById('searchInput').focus()}
 });
 </script>
 </body>
